@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "[Stripe Docs Gray]": {
+            "editor.lineHighlightBorder": "#3c4257",
+            "editor.wordHighlightStrongBackground": "#264f78",
+            "editor.wordHighlightBackground": "#264f78"
+        },
+        "activityBar.background": "#2B300A",
+        "titleBar.activeBackground": "#3C440E",
+        "titleBar.activeForeground": "#F9FBED"
+    }
+}
