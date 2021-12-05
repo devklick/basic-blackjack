@@ -75,6 +75,7 @@ const Table = () => {
     if (gameState !== GameState.WaitingForStart && !gameOver) {
       return;
     }
+    setShowDealerScore(false);
     setGameOver(false);
     setPlayerCards([]);
     setDealerCards([]);
@@ -137,26 +138,23 @@ const Table = () => {
     if (gameState !== GameState.PlayerRound) {
       return;
     }
+    setGameState(GameState.DealerRound);
+
     const _dealerCards = [...dealerCards];
     _dealerCards.forEach(card => card.facing = Facing.Up);
     setShowDealerScore(true);
-    setGameState(GameState.DealerRound);
 
-    const cardsToDeal = deckCards.slice(deckCards.length - 2);
-    let updatedDeck = deckCards.slice(0, deckCards.length - 2);
+    let updatedDeck = [...deckCards];
 
-    setDeckCards(updatedDeck);
-    setDealerCards(cardsToDeal);
+    let score = calculateBestScore(_dealerCards);
 
-    let score = calculateBestScore(cardsToDeal);
-
-    while (score < 16 || cardsToDeal.length === 5) {
-      cardsToDeal.push(updatedDeck[updatedDeck.length - 1]);
+    while (score < 16 || _dealerCards.length === 5) {
+      _dealerCards.push(updatedDeck[updatedDeck.length - 1]);
       updatedDeck = updatedDeck.slice(0, updatedDeck.length - 1);
       setDeckCards(updatedDeck);
-      setDealerCards(cardsToDeal);
+      setDealerCards(_dealerCards);
 
-      score = calculateBestScore(cardsToDeal);
+      score = calculateBestScore(_dealerCards);
     }
     setGameState(GameState.Result);
   };
@@ -195,14 +193,11 @@ const Table = () => {
                 <td>Player Score</td>
                 <td>{playerScore}</td>
               </tr>
-              {showDealerScore
-                ? <>
-                  <tr>
-                    <td>Dealer Score</td>
-                    <td>{dealerScore}</td>
-                  </tr>
-                </>
-                : null}
+              <tr>
+                <td>Dealer Score</td>
+                <td>{showDealerScore ? dealerScore : '?'}</td>
+              </tr>
+
             </table>
           </>
           : null}
