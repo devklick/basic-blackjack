@@ -81,21 +81,31 @@ export const CardRankMetadataMap: ICardRankMetadataMap = {
   [CardRank.King]: { values: [10], relativeValues: [13], symbol: 'K' },
 }
 
+export enum Facing {
+  Up,
+  Down
+}
+
 export interface CardObject {
   suit: CardSuit;
   rank: CardRank;
+  facing: Facing
 }
 
 export interface CardProps extends CardObject { }
 
-const Card: React.FC<CardProps> = ({ rank, suit }) => {
+const Card: React.FC<CardProps> = ({ rank, suit, facing }) => {
   const suitData = CardSuitMetadataMap[suit];
   const rankData = CardRankMetadataMap[rank];
   return (
-    <div className={styles.Card} style={{ backgroundColor: suitData.colour }} >
-      {rankData.symbol}
-      {suitData.symbol}
-    </div>
+    <>
+      {facing === Facing.Down
+        ? <div className={styles.Card} style={{ backgroundColor: 'grey' }} >?</div>
+        : <div className={styles.Card} style={{ backgroundColor: suitData.colour }} >
+          {rankData.symbol}
+          {suitData.symbol}
+        </div>}
+    </>
   )
 };
 

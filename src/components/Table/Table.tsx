@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
-import Card, { CardObject } from '../Card/Card';
+import Card, { CardObject, Facing } from '../Card/Card';
 import styles from './Table.module.scss';
 
 export interface TableProps {
@@ -9,6 +9,7 @@ export interface TableProps {
 
 export enum GameState {
   WaitingForStart,
+  DealingCards,
   PlayerRound,
   DealerRound,
   Result
@@ -23,13 +24,13 @@ const Table = () => {
   const [dealerScore, setDealerScore] = useState<number>(0);
   const [outcome, setOutcome] = useState<string | undefined>();
   const [gameOver, setGameOver] = useState<boolean>(false);
-
-
+  const [showDealerScore, setShowDealerScore] = useState<boolean>(false);
 
   /**
    * When a change to the dealerCars happens, this effect
    * will calculate the dealers score and whether or not 
    * the player is bust or hits a five card trick
+   * @todo //TODO: Need to determine winner properly.
    */
   useEffect(() => {
     const setResult = (_outcome: string): void => {
@@ -77,15 +78,39 @@ const Table = () => {
     setGameOver(false);
     setPlayerCards([]);
     setDealerCards([]);
-    const _deck = generateDeck(DeckType.Standard);
+    setGameState(GameState.DealingCards);
+
+    let _deck = generateDeck(DeckType.Standard);
+
+    const _playerCards: CardObject[] = [];
+    const _dealerCards: CardObject[] = [];
+
+    let cardToDeal: CardObject = _deck[_deck.length - 1];
+    _deck = _deck.slice(0, _deck.length - 1);
+    setDeckCards(_deck);
+    _playerCards.push(cardToDeal);
+    setPlayerCards(_playerCards);
+
+    cardToDeal = _deck[_deck.length - 1];
+    _deck = _deck.slice(0, _deck.length - 1);
+    setDeckCards(_deck);
+    _dealerCards.push(cardToDeal);
+    setDealerCards(_dealerCards);
+
+    cardToDeal = _deck[_deck.length - 1];
+    _deck = _deck.slice(0, _deck.length - 1);
+    setDeckCards(_deck);
+    _playerCards.push(cardToDeal);
+    setPlayerCards(_playerCards);
+
+    cardToDeal = _deck[_deck.length - 1];
+    cardToDeal.facing = Facing.Down;
+    _deck = _deck.slice(0, _deck.length - 1);
+    setDeckCards(_deck);
+    _dealerCards.push(cardToDeal);
+    setDealerCards(_dealerCards);
 
     setGameState(GameState.PlayerRound);
-
-    const cardsToDeal: CardObject[] = _deck.slice(_deck.length - 2);
-    const updatedDeck: CardObject[] = _deck.slice(0, _deck.length - 2);
-
-    setDeckCards(updatedDeck);
-    setPlayerCards(cardsToDeal);
   };
 
   /**
@@ -112,6 +137,9 @@ const Table = () => {
     if (gameState !== GameState.PlayerRound) {
       return;
     }
+    const _dealerCards = [...dealerCards];
+    _dealerCards.forEach(card => card.facing = Facing.Up);
+    setShowDealerScore(true);
     setGameState(GameState.DealerRound);
 
     const cardsToDeal = deckCards.slice(deckCards.length - 2);
@@ -122,7 +150,7 @@ const Table = () => {
 
     let score = calculateBestScore(cardsToDeal);
 
-    while (score < 18 || cardsToDeal.length === 5) {
+    while (score < 16 || cardsToDeal.length === 5) {
       cardsToDeal.push(updatedDeck[updatedDeck.length - 1]);
       updatedDeck = updatedDeck.slice(0, updatedDeck.length - 1);
       setDeckCards(updatedDeck);
@@ -167,10 +195,14 @@ const Table = () => {
                 <td>Player Score</td>
                 <td>{playerScore}</td>
               </tr>
-              <tr>
-                <td>Dealer Score</td>
-                <td>{dealerScore}</td>
-              </tr>
+              {showDealerScore
+                ? <>
+                  <tr>
+                    <td>Dealer Score</td>
+                    <td>{dealerScore}</td>
+                  </tr>
+                </>
+                : null}
             </table>
           </>
           : null}

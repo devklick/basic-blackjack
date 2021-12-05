@@ -1,4 +1,4 @@
-import { CardObject, CardRank, CardRankMetadataMap, CardSuit } from "../components/Card/Card";
+import { CardObject, CardRank, CardRankMetadataMap, CardSuit, Facing } from "../components/Card/Card";
 import { randomIntInRange } from "./randomUtilities";
 
 export enum DeckType {
@@ -63,7 +63,8 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 		Object.keys(CardSuit).forEach(suit => {
 			const card: CardObject = {
 				rank: CardRank[rank as keyof typeof CardRank],
-				suit: CardSuit[suit as keyof typeof CardSuit]
+				suit: CardSuit[suit as keyof typeof CardSuit],
+				facing: Facing.Up
 			};
 			const index = shuffle
 				? randomIntInRange(0, cards.length)
