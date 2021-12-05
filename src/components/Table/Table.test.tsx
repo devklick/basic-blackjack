@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Deck from './Deck';
+import Table from './Table';
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  // ReactDOM.render(<Deck />, div);
-  // ReactDOM.unmountComponentAtNode(div);
-  expect(true).toBe(true);
+  ReactDOM.render(<Table />, div);
+  ReactDOM.unmountComponentAtNode(div);
 });

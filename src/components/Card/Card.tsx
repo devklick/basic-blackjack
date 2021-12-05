@@ -8,12 +8,12 @@ export enum CardSuit {
   Spade = 'Spade'
 };
 
-export interface CardSuitMetadata {
+interface CardSuitMetadata {
   colour: string;
   symbol: string;
 }
 
-export interface ICardSuitMetadataMap {
+interface ICardSuitMetadataMap {
   [CardSuit.Club]: CardSuitMetadata;
   [CardSuit.Diamond]: CardSuitMetadata;
   [CardSuit.Heart]: CardSuitMetadata;
@@ -43,12 +43,13 @@ export enum CardRank {
   King = 'King',
 }
 
-export interface CardRankMetadata {
+interface CardRankMetadata {
   values: number[];
   symbol: string;
+  relativeValues: number[];
 }
 
-export interface ICardRankMetadataMap {
+interface ICardRankMetadataMap {
   [CardRank.Ace]: CardRankMetadata;
   [CardRank.Two]: CardRankMetadata;
   [CardRank.Three]: CardRankMetadata;
@@ -65,19 +66,19 @@ export interface ICardRankMetadataMap {
 }
 
 export const CardRankMetadataMap: ICardRankMetadataMap = {
-  [CardRank.Ace]: { values: [1, 14], symbol: 'A' },
-  [CardRank.Two]: { values: [2], symbol: '2' },
-  [CardRank.Three]: { values: [3], symbol: '3' },
-  [CardRank.Four]: { values: [4], symbol: '4' },
-  [CardRank.Five]: { values: [5], symbol: '5' },
-  [CardRank.Six]: { values: [6], symbol: '6' },
-  [CardRank.Seven]: { values: [7], symbol: '7' },
-  [CardRank.Eight]: { values: [8], symbol: '8' },
-  [CardRank.Nine]: { values: [9], symbol: '9' },
-  [CardRank.Ten]: { values: [10], symbol: '10' },
-  [CardRank.Jack]: { values: [11], symbol: 'J' },
-  [CardRank.Queen]: { values: [12], symbol: 'Q' },
-  [CardRank.King]: { values: [13], symbol: 'K' },
+  [CardRank.Ace]: { values: [1, 11], relativeValues: [1, 14], symbol: 'A' },
+  [CardRank.Two]: { values: [2], relativeValues: [2], symbol: '2' },
+  [CardRank.Three]: { values: [3], relativeValues: [3], symbol: '3' },
+  [CardRank.Four]: { values: [4], relativeValues: [4], symbol: '4' },
+  [CardRank.Five]: { values: [5], relativeValues: [5], symbol: '5' },
+  [CardRank.Six]: { values: [6], relativeValues: [6], symbol: '6' },
+  [CardRank.Seven]: { values: [7], relativeValues: [7], symbol: '7' },
+  [CardRank.Eight]: { values: [8], relativeValues: [8], symbol: '8' },
+  [CardRank.Nine]: { values: [9], relativeValues: [9], symbol: '9' },
+  [CardRank.Ten]: { values: [10], relativeValues: [10], symbol: '10' },
+  [CardRank.Jack]: { values: [10], relativeValues: [11], symbol: 'J' },
+  [CardRank.Queen]: { values: [10], relativeValues: [12], symbol: 'Q' },
+  [CardRank.King]: { values: [10], relativeValues: [13], symbol: 'K' },
 }
 
 export interface CardObject {

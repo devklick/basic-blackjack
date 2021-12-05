@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Deck, { DeckType } from './components/Deck/Deck';
+import Table from './components/Table/Table';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Deck type={DeckType.Standard}></Deck>
+      <Table />
     </div>
   );
 }

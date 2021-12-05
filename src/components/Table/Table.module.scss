@@ -1,0 +1,35 @@
+.Table {
+    background-color: #1e5e31;
+    height: 600px;
+    position: relative;
+    .CardOwner {
+        text-align: left;
+    }
+    .PlayerCards,
+    .DealerCards {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .PlayerCards {
+        left: 0;
+    }
+    .DealerCards {
+        margin-left: auto;
+        right: 0;
+    }
+
+    .InfoHud {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        .StartButton,
+        .HitButton,
+        .StickButton {
+            width: 100px;
+            height: 50px;
+            background-color: gray;
+        }
+    }
+}
