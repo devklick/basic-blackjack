@@ -76,8 +76,29 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 	return shuffle ? shuffleDeck(cards) : cards
 }
 
-export const calculateScore = (cards: CardObject[]): number => {
-	return cards
-		.map(card => Math.max(...CardRankMetadataMap[card.rank].values))
+/**
+ * Calculates the best score, i.e. the closest to 21, for the set of cards.
+ * @param cards The cards to be checked
+ * @returns {number} The best score for the cards
+ */
+export const calculateBestScore = (cards: CardObject[]): number => {
+	let aceCount = 0;
+	let score = cards
+		.map(card => {
+			if (card.rank === CardRank.Ace) {
+				aceCount++;
+			}
+			return Math.max(...CardRankMetadataMap[card.rank].values);
+		})
 		.reduce((accumulator, curr) => accumulator + curr, 0);
+
+	for (let i = 0; i < aceCount; i++) {
+		if (score < 21) {
+			break;
+		}
+		score -= 10;
+	}
+
+
+	return score;
 }

@@ -22,7 +22,7 @@ interface ICardSuitMetadataMap {
 
 export const CardSuitMetadataMap: ICardSuitMetadataMap = {
   [CardSuit.Club]: { colour: "black", symbol: '♣' },
-  [CardSuit.Diamond]: { colour: "#c40d0d", symbol: '♦' },
+  [CardSuit.Diamond]: { colour: "#c01f1f", symbol: '♦' },
   [CardSuit.Heart]: { colour: "#c01f1f", symbol: '♥' },
   [CardSuit.Spade]: { colour: "black", symbol: '♠' }
 }

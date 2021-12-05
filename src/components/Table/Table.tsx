@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { calculateScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
+import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
 import Card, { CardObject } from '../Card/Card';
 import styles from './Table.module.scss';
 
@@ -38,7 +38,7 @@ const Table = () => {
       setGameOver(true);
     }
 
-    const _playerScore = calculateScore(playerCards);
+    const _playerScore = calculateBestScore(playerCards);
     setPlayerScore(_playerScore);
 
     if (_playerScore > 21) {
@@ -48,7 +48,7 @@ const Table = () => {
       return setResult("Five card trick, player wins!");
     }
 
-    const _dealerScore = calculateScore(dealerCards);
+    const _dealerScore = calculateBestScore(dealerCards);
     setDealerScore(_dealerScore);
 
     if (_dealerScore > 21) {
@@ -120,7 +120,7 @@ const Table = () => {
     setDeckCards(updatedDeck);
     setDealerCards(cardsToDeal);
 
-    let score = calculateScore(cardsToDeal);
+    let score = calculateBestScore(cardsToDeal);
 
     while (score < 18 || cardsToDeal.length === 5) {
       cardsToDeal.push(updatedDeck[updatedDeck.length - 1]);
@@ -128,7 +128,7 @@ const Table = () => {
       setDeckCards(updatedDeck);
       setDealerCards(cardsToDeal);
 
-      score = calculateScore(cardsToDeal);
+      score = calculateBestScore(cardsToDeal);
     }
     setGameState(GameState.Result);
   };
