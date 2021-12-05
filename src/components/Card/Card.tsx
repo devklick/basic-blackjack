@@ -22,8 +22,8 @@ interface ICardSuitMetadataMap {
 
 export const CardSuitMetadataMap: ICardSuitMetadataMap = {
   [CardSuit.Club]: { colour: "black", symbol: '♣' },
-  [CardSuit.Diamond]: { colour: "red", symbol: '♦' },
-  [CardSuit.Heart]: { colour: "red", symbol: '♥' },
+  [CardSuit.Diamond]: { colour: "#c40d0d", symbol: '♦' },
+  [CardSuit.Heart]: { colour: "#c01f1f", symbol: '♥' },
   [CardSuit.Spade]: { colour: "black", symbol: '♠' }
 }
 
@@ -92,7 +92,7 @@ const Card: React.FC<CardProps> = ({ rank, suit }) => {
   const suitData = CardSuitMetadataMap[suit];
   const rankData = CardRankMetadataMap[rank];
   return (
-    <div className={styles.Card} style={{ backgroundColor: suitData.colour }}>
+    <div className={styles.Card} style={{ backgroundColor: suitData.colour }} >
       {rankData.symbol}
       {suitData.symbol}
     </div>

@@ -159,26 +159,33 @@ const Table = () => {
         {dealerCardsToRender}
       </div>
       <div className={styles.InfoHud}>
-        {gameOver ? <div>{outcome}</div> : null}
+        {gameOver ? <div className={styles.Outcome}>{outcome}</div> : null}
         {gameState !== GameState.WaitingForStart ?
           <>
-            <div>
-              Player Score: {playerScore}
-            </div>
-            <div>
-              Dealer Score: {dealerScore}
-            </div>
+            <table className={styles.ScoreTable}>
+              <tr>
+                <td>Player Score</td>
+                <td>{playerScore}</td>
+              </tr>
+              <tr>
+                <td>Dealer Score</td>
+                <td>{dealerScore}</td>
+              </tr>
+            </table>
           </>
           : null}
-        {gameState === GameState.WaitingForStart || gameOver
-          ? <button className={styles.StartButton} onClick={clickStartHandler}>Start</button>
-          : null}
-        {gameState === GameState.PlayerRound && !gameOver
-          ? <>
-            <button className={styles.HitButton} onClick={clickHitHandler}>Hit</button>
-            <button className={styles.StickButton} onClick={clickStickHandler}>Stick</button>
-          </>
-          : null}
+        <div className={styles.ButtonContainer}>
+          {gameState === GameState.WaitingForStart || gameOver
+            ? <button className={styles.StartButton} onClick={clickStartHandler}>{gameOver ? 'Restart' : 'Start'}</button>
+            : null}
+          {gameState === GameState.PlayerRound && !gameOver
+            ? <>
+              <button className={styles.HitButton} onClick={clickHitHandler}>Hit</button>
+              <button className={styles.StickButton} onClick={clickStickHandler}>Stick</button>
+            </>
+            : null}
+        </div>
+
       </div>
     </div>
   );
