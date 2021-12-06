@@ -3,7 +3,6 @@
 .InfoHud {
     @include TableDarkRaisedSection;
     bottom: 0;
-    width: 100%;
     .ScoreTable {
         @include TableDarkRaisedSection;
         margin: 0 auto;

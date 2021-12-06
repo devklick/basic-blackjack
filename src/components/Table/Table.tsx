@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
-import Card, { CardObject, Facing } from '../Card/Card';
+import { CardObject, CardRank, CardSuit, Facing } from '../Card/Card';
 import CardRow from '../CardRow/CardRow';
 import InfoHud from '../InfoHud/InfoHud';
 import styles from './Table.module.scss';
@@ -176,7 +176,8 @@ const Table = () => {
         scoreBoardRows={[
           { participant: 'Player', score: playerScore, displayScore: true },
           { participant: 'Dealer', score: dealerScore, displayScore: showDealerScore },
-        ]} />
+        ]}
+      />
     </div>
   );
 }
