@@ -1,4 +1,6 @@
+@import "../../StyleConstants.scss";
+
 .Table {
-    background-color: #1e5e31;
+    background-color: $TableClothLight;
     min-width: 370px;
 }

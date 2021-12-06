@@ -5,10 +5,6 @@ import CardRow from '../CardRow/CardRow';
 import InfoHud from '../InfoHud/InfoHud';
 import styles from './Table.module.scss';
 
-export interface TableProps {
-
-}
-
 export enum GameState {
   WaitingForStart,
   DealingCards,
@@ -71,7 +67,9 @@ const Table = () => {
   }, [playerCards, dealerCards, gameState])
 
   /**
-   * Handles the onClickStart event and starts a new game
+   * Handles the onClickStart event and starts a new game. 
+   * Deals a card facing up to player, a card facing up to dealer, 
+   * another card facing up to player, and finally a card cafing down to dealer
    */
   const clickStartHandler = (): void => {
     if (gameState !== GameState.WaitingForStart && !gameOver) {
@@ -150,7 +148,10 @@ const Table = () => {
 
     let score = calculateBestScore(_dealerCards);
 
-    while (score < 16 || _dealerCards.length === 5) {
+    while (_dealerCards.length < 5) {
+      if (score >= 16 && score > playerScore) {
+        break;
+      }
       _dealerCards.push(updatedDeck[updatedDeck.length - 1]);
       updatedDeck = updatedDeck.slice(0, updatedDeck.length - 1);
       setDeckCards(updatedDeck);

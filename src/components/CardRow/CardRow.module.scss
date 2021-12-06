@@ -1,13 +1,12 @@
+@import "../../StyleConstants.scss";
+
 .CardRow {
     .CardOwner {
         padding: 10px;
         text-align: left;
         width: auto;
-        background-color: #155027;
-        border-top: #256d3b 2px solid;
-        border-left: #256d3b 2px solid;
-        border-right: #164624 2px solid;
-        border-bottom: #164624 2px solid;
+        background-color: $TableClothDark;
+        @include TableDarkRaisedSection;
     }
     .Cards {
         display: flex;

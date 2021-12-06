@@ -1,16 +1,11 @@
+@import "../../StyleConstants.scss";
+
 .InfoHud {
-    background-color: #155027;
-    border-top: #256d3b 2px solid;
-    border-left: #256d3b 2px solid;
-    border-right: #164624 2px solid;
-    border-bottom: #164624 2px solid;
+    @include TableDarkRaisedSection;
     bottom: 0;
     width: 100%;
     .ScoreTable {
-        border-top: #256d3b 2px solid;
-        border-left: #256d3b 2px solid;
-        border-right: #164624 2px solid;
-        border-bottom: #164624 2px solid;
+        @include TableDarkRaisedSection;
         margin: 0 auto;
         margin-top: 10px;
         table,

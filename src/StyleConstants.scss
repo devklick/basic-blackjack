@@ -1,0 +1,19 @@
+$White: white;
+$Black: black;
+
+$RedCardColor: #c01f1f;
+$BlackCardColor: $Black;
+$CardBackColor: #808080;
+
+$TableClothLight: #1e5e31;
+$TableClothDark: #155027;
+$TableClothHighlight: #256d3b;
+$TableClothShadow: #164624;
+
+@mixin TableDarkRaisedSection {
+    background-color: $TableClothDark;
+    border-top: $TableClothHighlight 2px solid;
+    border-left: $TableClothHighlight 2px solid;
+    border-right: $TableClothShadow 2px solid;
+    border-bottom: $TableClothShadow 2px solid;
+}

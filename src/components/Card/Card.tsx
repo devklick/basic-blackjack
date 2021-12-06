@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card.module.scss';
+import '../../StyleConstants.scss';
 
 export enum CardSuit {
   Diamond = 'Diamond',
