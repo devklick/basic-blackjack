@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
 import Card, { CardObject, Facing } from '../Card/Card';
+import CardRow from '../CardRow/CardRow';
+import InfoHud from '../InfoHud/InfoHud';
 import styles from './Table.module.scss';
 
 export interface TableProps {
@@ -159,61 +161,21 @@ const Table = () => {
     setGameState(GameState.Result);
   };
 
-  const playerCardsToRender = playerCards.map(c => Card(c));
-  const dealerCardsToRender = dealerCards.map(c => Card(c));
-
   return (
     <div className={styles.Table}>
-      {playerCards.length > 0 ?
-        <>
-          <div className={styles.CardOwner}>
-            Players Cards
-          </div>
-        </>
-        : null}
-      <div className={styles.PlayerCards}>
-        {playerCardsToRender}
-      </div>
-      {dealerCards.length > 0 ?
-        <>
-          <div className={styles.CardOwner}>
-            Dealers Cards
-          </div>
-        </>
-        : null}
-      <div className={styles.DealerCards}>
-        {dealerCardsToRender}
-      </div>
-      <div className={styles.InfoHud}>
-        {gameOver ? <div className={styles.Outcome}>{outcome}</div> : null}
-        {gameState !== GameState.WaitingForStart ?
-          <>
-            <table className={styles.ScoreTable}>
-              <tr>
-                <td>Player Score</td>
-                <td>{playerScore}</td>
-              </tr>
-              <tr>
-                <td>Dealer Score</td>
-                <td>{showDealerScore ? dealerScore : '?'}</td>
-              </tr>
-
-            </table>
-          </>
-          : null}
-        <div className={styles.ButtonContainer}>
-          {gameState === GameState.WaitingForStart || gameOver
-            ? <button className={styles.StartButton} onClick={clickStartHandler}>{gameOver ? 'Restart' : 'Start'}</button>
-            : null}
-          {gameState === GameState.PlayerRound && !gameOver
-            ? <>
-              <button className={styles.HitButton} onClick={clickHitHandler}>Hit</button>
-              <button className={styles.StickButton} onClick={clickStickHandler}>Stick</button>
-            </>
-            : null}
-        </div>
-
-      </div>
+      <CardRow cardOwner='Dealer' cards={dealerCards} />
+      <CardRow cardOwner='Player' cards={playerCards} />
+      <InfoHud
+        gameOver={gameOver}
+        gameState={gameState}
+        outcome={outcome}
+        clickStartHandler={clickStartHandler}
+        clickHitHandler={clickHitHandler}
+        clickStickHandler={clickStickHandler}
+        scoreBoardRows={[
+          { participant: 'Player', score: playerScore, displayScore: true },
+          { participant: 'Dealer', score: dealerScore, displayScore: showDealerScore },
+        ]} />
     </div>
   );
 }

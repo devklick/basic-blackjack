@@ -1,0 +1,44 @@
+.InfoHud {
+    background-color: #155027;
+    border-top: #256d3b 2px solid;
+    border-left: #256d3b 2px solid;
+    border-right: #164624 2px solid;
+    border-bottom: #164624 2px solid;
+    bottom: 0;
+    width: 100%;
+    .ScoreTable {
+        border-top: #256d3b 2px solid;
+        border-left: #256d3b 2px solid;
+        border-right: #164624 2px solid;
+        border-bottom: #164624 2px solid;
+        margin: 0 auto;
+        margin-top: 10px;
+        table,
+        td,
+        th {
+            padding: 5px;
+            border-collapse: collapse;
+        }
+    }
+    .Outcome {
+        font-size: 26px;
+        padding: 10px;
+        padding-bottom: 0;
+        text-align: center;
+    }
+    .ButtonContainer {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        .StartButton,
+        .HitButton,
+        .StickButton {
+            width: 100px;
+            height: 50px;
+            background-color: gray;
+            border-radius: 8px;
+        }
+    }
+}

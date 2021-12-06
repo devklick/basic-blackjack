@@ -94,7 +94,7 @@ export const calculateBestScore = (cards: CardObject[]): number => {
 		.reduce((accumulator, curr) => accumulator + curr, 0);
 
 	for (let i = 0; i < aceCount; i++) {
-		if (score < 21) {
+		if (score <= 21) {
 			break;
 		}
 		score -= 10;
