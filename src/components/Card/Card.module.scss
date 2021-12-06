@@ -10,4 +10,14 @@
     font-size: 30px;
     border-radius: 5%;
     box-shadow: $TableClothShadow 2px 2px 5px;
+    animation: slide-from-right 0.3s;
+}
+
+@keyframes slide-from-right {
+    0% {
+        transform: translateX(calc(100vw / 2));
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
