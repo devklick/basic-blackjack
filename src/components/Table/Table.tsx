@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
-import { CardObject, CardRank, CardSuit, Facing } from '../Card/Card';
+import { CardObject, Facing } from '../Card/Card';
 import CardRow from '../CardRow/CardRow';
 import InfoHud from '../InfoHud/InfoHud';
 import styles from './Table.module.scss';
@@ -13,6 +13,11 @@ export enum GameState {
   Result
 }
 
+export enum Participant {
+  Dealer = 'Dealer',
+  Player = 'Player'
+}
+
 const Table = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.WaitingForStart);
   const [deckCards, setDeckCards] = useState<CardObject[]>([]);
@@ -23,7 +28,24 @@ const Table = () => {
   const [outcome, setOutcome] = useState<string | undefined>();
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [showDealerScore, setShowDealerScore] = useState<boolean>(false);
+  const [totalPlayerWins, setTotalPlayerWins] = useState<number>(0);
+  const [totalDealerWins, setTotalDealerWins] = useState<number>(0);
 
+  /**
+   * Performs the various relevant actions when a game has reached a result.
+   * @param outcomeText The text to be displayed to describe the outcome
+   * @param winner The participant that won the game
+   */
+  const setResult = (outcomeText: string, winner: Participant): void => {
+    setGameState(GameState.Result);
+    setOutcome(outcomeText);
+    setGameOver(true);
+    if (winner === Participant.Dealer) {
+      setTotalDealerWins(current => current + 1);
+    } else if (winner === Participant.Player) {
+      setTotalPlayerWins(current => current + 1);
+    }
+  }
   /**
    * When a change to the dealerCars happens, this effect
    * will calculate the dealers score and whether or not 
@@ -31,40 +53,41 @@ const Table = () => {
    * @todo //TODO: Need to determine winner properly.
    */
   useEffect(() => {
-    const setResult = (_outcome: string): void => {
-      setGameState(GameState.Result);
-      setOutcome(_outcome);
-      setGameOver(true);
-    }
-
     const _playerScore = calculateBestScore(playerCards);
     setPlayerScore(_playerScore);
 
     if (_playerScore > 21) {
-      return setResult("Player bust, dealer wins!");
+      return setResult("Player bust, dealer wins!", Participant.Dealer);
     }
     if (playerCards.length === 5 && _playerScore <= 21) {
-      return setResult("Five card trick, player wins!");
+      return setResult("Five card trick, player wins!", Participant.Player);
     }
 
     const _dealerScore = calculateBestScore(dealerCards);
     setDealerScore(_dealerScore);
 
     if (_dealerScore > 21) {
-      return setResult("Dealer bust, player wins!");
+      return setResult("Dealer bust, player wins!", Participant.Player);
     }
     if (dealerCards.length === 5 && _dealerScore <= 21) {
-      return setResult("Five card trick, dealer wins!");
+      return setResult("Five card trick, dealer wins!", Participant.Dealer);
     }
 
-    if (gameState === GameState.Result) {
-      if (_playerScore > _dealerScore) {
-        return setResult("Player beats dealer!");
+  }, [playerCards, dealerCards])
+
+  /**
+   * This effect calculates the outcome when all participants 
+   * have played their cards and no one has went bust, i.e. the 
+   * game has reached the resulting state.
+   */
+  useEffect(() => {
+    if (gameState === GameState.Result && !gameOver) {
+      if (playerScore > dealerScore) {
+        return setResult("Player beats dealer!", Participant.Player);
       }
-      return setResult('Dealer beats player!');
+      return setResult('Dealer beats player!', Participant.Dealer);
     }
-
-  }, [playerCards, dealerCards, gameState])
+  }, [gameState, playerScore, dealerScore, gameOver])
 
   /**
    * Handles the onClickStart event and starts a new game. 
@@ -149,7 +172,7 @@ const Table = () => {
     let score = calculateBestScore(_dealerCards);
 
     while (_dealerCards.length < 5) {
-      if (score >= 16 && score > playerScore) {
+      if (score >= 16 && score >= playerScore) {
         break;
       }
       _dealerCards.push(updatedDeck[updatedDeck.length - 1]);
@@ -164,8 +187,8 @@ const Table = () => {
 
   return (
     <div className={styles.Table}>
-      <CardRow cardOwner='Dealer' cards={dealerCards} />
-      <CardRow cardOwner='Player' cards={playerCards} />
+      <CardRow cardOwner={Participant.Dealer} cards={dealerCards} />
+      <CardRow cardOwner={Participant.Player} cards={playerCards} />
       <InfoHud
         gameOver={gameOver}
         gameState={gameState}
@@ -174,8 +197,8 @@ const Table = () => {
         clickHitHandler={clickHitHandler}
         clickStickHandler={clickStickHandler}
         scoreBoardRows={[
-          { participant: 'Player', score: playerScore, displayScore: true },
-          { participant: 'Dealer', score: dealerScore, displayScore: showDealerScore },
+          { participant: Participant.Player, score: playerScore, displayScore: true, totalWins: totalPlayerWins },
+          { participant: Participant.Dealer, score: dealerScore, displayScore: showDealerScore, totalWins: totalDealerWins },
         ]}
       />
     </div>

@@ -1,9 +1,10 @@
 import React from 'react';
 import Card, { CardObject } from '../Card/Card';
+import { Participant } from '../Table/Table';
 import styles from './CardRow.module.scss';
 
 export interface CardRowProps {
-  cardOwner: string;
+  cardOwner: Participant;
   cards: CardObject[];
 }
 

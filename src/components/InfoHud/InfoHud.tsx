@@ -1,11 +1,12 @@
 import React from 'react';
-import { GameState } from '../Table/Table';
+import { GameState, Participant } from '../Table/Table';
 import styles from './InfoHud.module.scss';
 
 export interface ScoreBoardRow {
-  participant: string;
+  participant: Participant;
   score: number;
   displayScore: boolean;
+  totalWins: number
 }
 
 export interface InfoHudProps {
@@ -20,18 +21,36 @@ export interface InfoHudProps {
 
 const getScoreBoard = (scoreBoardRows: ScoreBoardRow[]) => {
   return (
-    <table className={styles.ScoreTable}>
-      {
-        scoreBoardRows.map(row => {
-          return (
-            <tr>
-              <td>{row.participant}</td>
-              <td>{row.displayScore ? row.score : '?'}</td>
-            </tr>
-          )
-        })
-      }
-    </table>
+    <div className={styles.TableContainer}>
+      <table className={styles.ScoreTable}>
+        <tr>
+          <th>Participant</th>
+          <th>Hand Score</th>
+
+        </tr>
+        {
+          scoreBoardRows.map(row => {
+            return (
+              <tr>
+                <td>{row.participant}</td>
+                <td>{row.displayScore ? row.score : '?'}</td>
+
+              </tr>
+            )
+          })
+        }
+      </table>
+      <table className={styles.ScoreTable}>
+        <th>Total Wins</th>
+        {
+          scoreBoardRows.map(row => {
+            return (
+              <tr><td>{row.totalWins}</td></tr>
+            )
+          })
+        }
+      </table>
+    </div>
   )
 }
 

@@ -3,15 +3,23 @@
 .InfoHud {
     @include TableDarkRaisedSection;
     bottom: 0;
-    .ScoreTable {
-        @include TableDarkRaisedSection;
-        margin: 0 auto;
-        margin-top: 10px;
-        table,
-        td,
-        th {
-            padding: 5px;
-            border-collapse: collapse;
+    .TableContainer {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .ScoreTable {
+            @include TableDarkRaisedSection;
+            margin: 0;
+            margin-top: 10px;
+            table,
+            td,
+            th {
+                padding: 5px;
+            }
         }
     }
     .Outcome {
