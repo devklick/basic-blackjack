@@ -5,8 +5,14 @@ export enum DeckType {
 	Standard
 }
 
+/**
+ * An over-engineered shuffle implementation designed to emulate the riffle-shuffle.
+ * @param cards The cards to be shuffled.
+ * @returns The shuffled cards
+ */
 export const shuffleDeck = (cards: CardObject[]): CardObject[] => {
-	for (let n: number = 0; n < 5; n++) {
+	for (let n: number = 0; n < 3; n++) {
+		// cut the deck roughly in half
 		const halfway = cards.length / 2;
 		const splitAt = randomIntInRange(halfway - 3, halfway + 3);
 		const left = cards.slice(0, splitAt);
@@ -18,7 +24,7 @@ export const shuffleDeck = (cards: CardObject[]): CardObject[] => {
 		let r: number = 0;
 		while (l < left.length) {
 			// determine how many cards to take from the left side
-			let take = randomIntInRange(1, 6);
+			let take = randomIntInRange(0, 3);
 
 			// if we're taking more than is available, or there's no cards left on the right side, 
 			// take the remaining cards on the left side
@@ -33,7 +39,7 @@ export const shuffleDeck = (cards: CardObject[]): CardObject[] => {
 			l += take;
 
 			// determine how many cards to take from the right side
-			take = randomIntInRange(1, 6);
+			take = randomIntInRange(0, 3);
 
 			// if we're taking more than is available, or there's no cards left on the left side, 
 			// take the remaining cards from the right side.
@@ -66,10 +72,15 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 				suit: CardSuit[suit as keyof typeof CardSuit],
 				facing: Facing.Up
 			};
+
+			// If the deck is to be shuffled, lets create it with cards 
+			// in a random order to get a head start. Select a random index
+			// where the card should be inserted into the deck.
 			const index = shuffle
 				? randomIntInRange(0, cards.length)
 				: cards.length
 
+			// Insert the card into the deck
 			cards.splice(index, 0, card);
 		})
 	})
