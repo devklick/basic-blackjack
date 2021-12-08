@@ -182,7 +182,7 @@ const Table = () => {
 
       score = calculateBestScore(_dealerCards);
     }
-    setGameState(GameState.Result);
+    setTimeout(() => setGameState(GameState.Result), 10);
   };
 
   return (
