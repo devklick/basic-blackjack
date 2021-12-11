@@ -66,7 +66,7 @@ const Table = () => {
       return setResult("Player bust, dealer wins!", Participant.Dealer);
     }
     if (playerCards.length === 5 && _playerHand.score <= 21) {
-      return setResult("Five card trick, player wins!", Participant.Player);
+      return setResult("Player wins with a five card trick!", Participant.Player);
     }
 
     const _dealerHand = calculateBestHand(dealerCards);
@@ -76,7 +76,7 @@ const Table = () => {
       return setResult("Dealer bust, player wins!", Participant.Player);
     }
     if (dealerCards.length === 5 && _dealerHand.score <= 21) {
-      return setResult("Five card trick, dealer wins!", Participant.Dealer);
+      return setResult("Dealer wins with a five card trick!", Participant.Dealer);
     }
 
   }, [playerCards, dealerCards])
@@ -241,8 +241,8 @@ const Table = () => {
           clickHitHandler={() => clickHitHandler(false)}
           clickStickHandler={() => clickStickHandler(false)}
           scoreBoardRows={[
-            { participant: Participant.Player, score: playerHand.score, displayScore: true, totalWins: totalPlayerWins },
             { participant: Participant.Dealer, score: dealerHand.score, displayScore: showDealerScore, totalWins: totalDealerWins },
+            { participant: Participant.Player, score: playerHand.score, displayScore: true, totalWins: totalPlayerWins }
           ]}
         />
       </div>

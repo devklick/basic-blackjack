@@ -135,13 +135,27 @@ export const calculateBestHand = (cards: CardObject[]): BestHand => {
 	}
 
 	return bestHand;
+
 }
 
 export interface GameResult {
+	/**
+	 * The participant who won the game. 
+	 * It's possible for a game to draw, in which case winner will be null.
+	 */
 	winner?: Participant | null;
+	/**
+	 * The test to be displayed to the user regarding the winner.
+	 */
 	winnerText: string;
 }
 
+/**
+ * Checks the player's hand against the dealers hand and determines who the winner is.
+ * @param playerHand The players hand
+ * @param dealerHand The dealers hand
+ * @returns The result of the game; who won and why.
+ */
 export const determineWinner = (playerHand: BestHand, dealerHand: BestHand): GameResult => {
 
 	if (playerHand.score > dealerHand.score) {
