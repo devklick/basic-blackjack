@@ -1,4 +1,5 @@
 import { CardObject, CardRank, CardRankMetadataMap, CardSuit, Facing } from "../components/Card/Card";
+import { Participant } from "../components/Table/Table";
 import { randomIntInRange } from "./randomUtilities";
 
 export enum DeckType {
@@ -88,29 +89,82 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 	return shuffle ? shuffleDeck(cards) : cards
 }
 
+export interface CardValue {
+	card: CardObject;
+	rankValueUsed: number
+	rankRelativeValueUsed: number;
+}
+export interface BestHand {
+	score: number;
+	cards: CardValue[]
+}
+
 /**
- * Calculates the best score, i.e. the closest to 21, for the set of cards.
+ * Calculates the best hand, i.e. the closest to 21, for the set of cards.
  * @param cards The cards to be checked
- * @returns {number} The best score for the cards
+ * @returns {BestHand} The best hand that can be achieved with the input cards
  */
-export const calculateBestScore = (cards: CardObject[]): number => {
+export const calculateBestHand = (cards: CardObject[]): BestHand => {
+	const bestHand: BestHand = {
+		cards: [],
+		score: 0
+	};
+
 	let aceCount = 0;
-	let score = cards
-		.map(card => {
-			if (card.rank === CardRank.Ace) {
-				aceCount++;
-			}
-			return Math.max(...CardRankMetadataMap[card.rank].values);
-		})
-		.reduce((accumulator, curr) => accumulator + curr, 0);
+	cards.forEach(card => {
+		if (card.rank === CardRank.Ace) {
+			aceCount++;
+		}
+
+		const cardValue = Math.max(...CardRankMetadataMap[card.rank].values);
+		const cardRelativeValue = Math.max(...CardRankMetadataMap[card.rank].relativeValues);
+		bestHand.cards.push({
+			card,
+			rankRelativeValueUsed: cardRelativeValue,
+			rankValueUsed: cardValue
+		});
+		bestHand.score += cardValue;
+	});
 
 	for (let i = 0; i < aceCount; i++) {
-		if (score <= 21) {
+		if (bestHand.score <= 21) {
 			break;
 		}
-		score -= 10;
+		bestHand.cards.find(c => c.rankValueUsed === 11)!.rankValueUsed -= 10;
+		bestHand.score -= 10;
 	}
 
+	return bestHand;
+}
 
-	return score;
+export interface GameResult {
+	winner?: Participant | null;
+	winnerText: string;
+}
+
+export const determineWinner = (playerHand: BestHand, dealerHand: BestHand): GameResult => {
+
+	if (playerHand.score > dealerHand.score) {
+		return { winner: Participant.Player, winnerText: "Player wins with a high score" };
+	}
+	if (dealerHand.score > playerHand.score) {
+		return { winner: Participant.Dealer, winnerText: "Dealer wins with a high score" };
+	}
+	if (playerHand.cards.length > dealerHand.cards.length) {
+		return { winner: Participant.Player, winnerText: "Player wins with the most cards" };
+	}
+	if (dealerHand.cards.length > playerHand.cards.length) {
+		return { winner: Participant.Dealer, winnerText: "Dealer wins with the most cards" };
+	}
+	const cardCount = playerHand.cards.length;
+	let currentCardIndex = 0;
+	while (currentCardIndex < cardCount) {
+		if (playerHand.cards[currentCardIndex].rankValueUsed > dealerHand.cards[currentCardIndex].rankValueUsed) {
+			return { winner: Participant.Player, winnerText: "Player wins with a high card" };
+		}
+		if (dealerHand.cards[currentCardIndex].rankValueUsed > playerHand.cards[currentCardIndex].rankValueUsed) {
+			return { winner: Participant.Dealer, winnerText: "Dealer wins with a high card" };
+		}
+	}
+	return { winner: null, winnerText: "Draw! Same hand value, number of cards, and card ranks!" };
 }

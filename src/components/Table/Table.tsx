@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deckUtilities';
+import { BestHand, calculateBestHand, DeckType, determineWinner, generateDeck } from '../../utilities/deckUtilities';
 import { CardObject, Facing } from '../Card/Card';
 import CardRow from '../CardRow/CardRow';
 import InfoHud from '../InfoHud/InfoHud';
@@ -24,8 +24,11 @@ const Table = () => {
   const [deckCards, setDeckCards] = useState<CardObject[]>([]);
   const [playerCards, setPlayerCards] = useState<CardObject[]>([]);
   const [dealerCards, setDealerCards] = useState<CardObject[]>([]);
-  const [playerScore, setPlayerScore] = useState<number>(0);
-  const [dealerScore, setDealerScore] = useState<number>(0);
+  // const [playerScore, setPlayerScore] = useState<number>(0);
+  // const [dealerScore, setDealerScore] = useState<number>(0);
+  const defaultBestHand: BestHand = { cards: [], score: 0 };
+  const [playerHand, setPlayerHand] = useState<BestHand>(defaultBestHand);
+  const [dealerHand, setDealerHand] = useState<BestHand>(defaultBestHand);
   const [outcome, setOutcome] = useState<string | undefined>();
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [showDealerScore, setShowDealerScore] = useState<boolean>(false);
@@ -39,7 +42,7 @@ const Table = () => {
    * @param outcomeText The text to be displayed to describe the outcome
    * @param winner The participant that won the game
    */
-  const setResult = (outcomeText: string, winner: Participant): void => {
+  const setResult = (outcomeText: string, winner?: Participant | null): void => {
     setGameState(GameState.Result);
     setOutcome(outcomeText);
     setGameOver(true);
@@ -56,23 +59,23 @@ const Table = () => {
    * @todo //TODO: Need to determine winner properly.
    */
   useEffect(() => {
-    const _playerScore = calculateBestScore(playerCards);
-    setPlayerScore(_playerScore);
+    const _playerHand = calculateBestHand(playerCards);
+    setPlayerHand(_playerHand);
 
-    if (_playerScore > 21) {
+    if (_playerHand.score > 21) {
       return setResult("Player bust, dealer wins!", Participant.Dealer);
     }
-    if (playerCards.length === 5 && _playerScore <= 21) {
+    if (playerCards.length === 5 && _playerHand.score <= 21) {
       return setResult("Five card trick, player wins!", Participant.Player);
     }
 
-    const _dealerScore = calculateBestScore(dealerCards);
-    setDealerScore(_dealerScore);
+    const _dealerHand = calculateBestHand(dealerCards);
+    setDealerHand(_dealerHand);
 
-    if (_dealerScore > 21) {
+    if (_dealerHand.score > 21) {
       return setResult("Dealer bust, player wins!", Participant.Player);
     }
-    if (dealerCards.length === 5 && _dealerScore <= 21) {
+    if (dealerCards.length === 5 && _dealerHand.score <= 21) {
       return setResult("Five card trick, dealer wins!", Participant.Dealer);
     }
 
@@ -85,12 +88,11 @@ const Table = () => {
    */
   useEffect(() => {
     if (gameState === GameState.Result && !gameOver) {
-      if (playerScore > dealerScore) {
-        return setResult("Player beats dealer!", Participant.Player);
-      }
-      return setResult('Dealer beats player!', Participant.Dealer);
+      const gameResult = determineWinner(playerHand, dealerHand);
+
+      setResult(gameResult.winnerText, gameResult.winner);
     }
-  }, [gameState, playerScore, dealerScore, gameOver])
+  }, [gameState, playerHand, dealerHand, gameOver])
 
   /**
    * Handles the onClickStart event and starts a new game. 
@@ -105,6 +107,8 @@ const Table = () => {
     setGameOver(false);
     setPlayerCards([]);
     setDealerCards([]);
+    setPlayerHand(defaultBestHand);
+    setDealerHand(defaultBestHand);
     setGameState(GameState.DealingCards);
 
     let _deck = generateDeck(DeckType.Standard);
@@ -149,7 +153,7 @@ const Table = () => {
       return;
     }
 
-    if (playerScore >= 18 && !overrideWarning) {
+    if (playerHand.score >= 18 && !overrideWarning) {
       setShowHitWarningYesNoPopUp(true);
       return;
     }
@@ -171,7 +175,7 @@ const Table = () => {
       return;
     }
 
-    if (playerScore <= 10 && !overrideWarning) {
+    if (playerHand.score <= 10 && !overrideWarning) {
       setShowStickWarningYesNoPopUp(true);
       return;
     }
@@ -184,10 +188,10 @@ const Table = () => {
 
     let updatedDeck = [...deckCards];
 
-    let score = calculateBestScore(_dealerCards);
+    let score = calculateBestHand(_dealerCards).score;
 
     while (_dealerCards.length < 5) {
-      if (score >= 16 && score >= playerScore) {
+      if (score >= 16 && score >= playerHand.score) {
         break;
       }
       _dealerCards.push(updatedDeck[updatedDeck.length - 1]);
@@ -195,7 +199,7 @@ const Table = () => {
       setDeckCards(updatedDeck);
       setDealerCards(_dealerCards);
 
-      score = calculateBestScore(_dealerCards);
+      score = calculateBestHand(_dealerCards).score;
     }
     setTimeout(() => setGameState(GameState.Result), 10);
   };
@@ -237,8 +241,8 @@ const Table = () => {
           clickHitHandler={() => clickHitHandler(false)}
           clickStickHandler={() => clickStickHandler(false)}
           scoreBoardRows={[
-            { participant: Participant.Player, score: playerScore, displayScore: true, totalWins: totalPlayerWins },
-            { participant: Participant.Dealer, score: dealerScore, displayScore: showDealerScore, totalWins: totalDealerWins },
+            { participant: Participant.Player, score: playerHand.score, displayScore: true, totalWins: totalPlayerWins },
+            { participant: Participant.Dealer, score: dealerHand.score, displayScore: showDealerScore, totalWins: totalDealerWins },
           ]}
         />
       </div>
