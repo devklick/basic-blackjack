@@ -3,6 +3,7 @@ import { calculateBestScore, DeckType, generateDeck } from '../../utilities/deck
 import { CardObject, Facing } from '../Card/Card';
 import CardRow from '../CardRow/CardRow';
 import InfoHud from '../InfoHud/InfoHud';
+import YesNoPopUp from '../YesNoPopUp/YesNoPopUp';
 import styles from './Table.module.scss';
 
 export enum GameState {
@@ -30,6 +31,8 @@ const Table = () => {
   const [showDealerScore, setShowDealerScore] = useState<boolean>(false);
   const [totalPlayerWins, setTotalPlayerWins] = useState<number>(0);
   const [totalDealerWins, setTotalDealerWins] = useState<number>(0);
+  const [showHitWarningYesNoPopUp, setShowHitWarningYesNoPopUp] = useState<boolean>(false);
+
 
   /**
    * Performs the various relevant actions when a game has reached a result.
@@ -141,10 +144,16 @@ const Table = () => {
    * Handles the onClickHit event, taking a card from
    * the deck and giving it to the player
    */
-  const clickHitHandler = () => {
+  const clickHitHandler = (overrideWarning: boolean = false) => {
     if (gameState !== GameState.PlayerRound) {
       return;
     }
+
+    if (playerScore >= 18 && !overrideWarning) {
+      setShowHitWarningYesNoPopUp(true);
+      return;
+    }
+
     const card = deckCards[deckCards.length - 1];
     const updatedDeck = deckCards.slice(0, deckCards.length - 1);
 
@@ -186,22 +195,37 @@ const Table = () => {
   };
 
   return (
-    <div className={styles.Table}>
-      <CardRow cardOwner={Participant.Dealer} cards={dealerCards} />
-      <CardRow cardOwner={Participant.Player} cards={playerCards} />
-      <InfoHud
-        gameOver={gameOver}
-        gameState={gameState}
-        outcome={outcome}
-        clickStartHandler={clickStartHandler}
-        clickHitHandler={clickHitHandler}
-        clickStickHandler={clickStickHandler}
-        scoreBoardRows={[
-          { participant: Participant.Player, score: playerScore, displayScore: true, totalWins: totalPlayerWins },
-          { participant: Participant.Dealer, score: dealerScore, displayScore: showDealerScore, totalWins: totalDealerWins },
-        ]}
-      />
-    </div>
+    <>
+      {
+        showHitWarningYesNoPopUp
+          ?
+          <YesNoPopUp message="Are you sure?"
+            onClickYes={() => {
+              setShowHitWarningYesNoPopUp(false);
+              clickHitHandler(true);
+            }}
+            onClickNo={() => setShowHitWarningYesNoPopUp(false)}
+            onClickClose={() => setShowHitWarningYesNoPopUp(false)}
+          />
+          : null
+      }
+      <div className={styles.Table}>
+        <CardRow cardOwner={Participant.Dealer} cards={dealerCards} />
+        <CardRow cardOwner={Participant.Player} cards={playerCards} />
+        <InfoHud
+          gameOver={gameOver}
+          gameState={gameState}
+          outcome={outcome}
+          clickStartHandler={clickStartHandler}
+          clickHitHandler={() => clickHitHandler(false)}
+          clickStickHandler={clickStickHandler}
+          scoreBoardRows={[
+            { participant: Participant.Player, score: playerScore, displayScore: true, totalWins: totalPlayerWins },
+            { participant: Participant.Dealer, score: dealerScore, displayScore: showDealerScore, totalWins: totalDealerWins },
+          ]}
+        />
+      </div>
+    </>
   );
 }
 
