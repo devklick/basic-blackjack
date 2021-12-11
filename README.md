@@ -17,7 +17,7 @@ but doesnt really follow the rules of any one of these games.
 <details>
 <summary>Click to see gameplay video</summary>
 
-![Confirm Hit](/docs/Gameplay2.gif)
+![Confirm Hit](/docs/Gameplay.gif)
 </details>
 
 ---
