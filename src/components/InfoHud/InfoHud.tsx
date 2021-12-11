@@ -57,7 +57,8 @@ const getScoreBoard = (scoreBoardRows: ScoreBoardRow[]) => {
 const InfoHud = (props: InfoHudProps) => {
   return (
     <div className={styles.InfoHud}>
-      {props.gameOver ? <div className={styles.Outcome}>{props.outcome}</div> : null}
+      {/* {props.gameOver ? <div className={styles.Outcome}>{props.outcome}</div> : null} */}
+      <div className={styles.Outcome}>{props.gameOver ? props.outcome : null}</div>
       {props.gameState !== GameState.WaitingForStart ?
         getScoreBoard(props.scoreBoardRows)
         : null}
