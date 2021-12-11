@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+# Blackjack (but not really)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an over-simplified, crude version of Blackjack.
+It's actually more along the lines of the classic card games Twenty-One or Pontoon,
+but doesnt really follow the rules of any one of these games.
 
-## Available Scripts
 
-In the project directory, you can run:
+<details>
+<summary>Click to see screenshots!</summary>>
 
-### `npm start`
+![Initial Round](/docs/InitialRound.png)
+![Initial Round](/docs/DealerBust.png)
+![Initial Round](/docs/FiveCardTrick.png)
+![Initial Round](/docs/ConfirmStick.png)
+![Initial Round](/docs/ConfirmHit.png)
+</details>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Objective
+The idea is to end up with cards who's ranks add up to 21, or end up with 5 cards that add to to 21 or less (aka "five card trick").
 
-### `npm test`
+## Overview
+The game contains two players; the player (you) and the dealer (computer). The dealer will start by dealing four cards:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Deal 1 card to player, facing up
+2. Deal 1 card to dealer, facing up
+3. Deal 1 card to player, facing up
+4. Deal 1 card to dealer, facing *down*
 
-### `npm run build`
+### Player Round
+The player will then have a chance to decide whether they want to **hit** (receive another card, face up) or **stick** (stick with their current cards). If they decide to hit, their cards will either total 21 or less, in which case they get to decide whether to hit or stick again (up to a total of 3 times), or they will be **bust** (their cards total exceed 21), in which case they loose and the dealer automatically wins.
+### Dealer Round
+If the player decides to stick, it's over to the dealer (computer). First, their second card, which was facing down until this point, will be turned face up. The dealer (computer) then decides whether they want to hit or stick, just like the player. The only differences are that:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- The dealer *must* hit if their score is less than 16
+- The dealer *must* hit if their score is less than the players score
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Result
+At the end of the dealers round, either the player or dealer will have won. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Ways to win
+There's a few ways in which a result is reached:
 
-### `npm run eject`
+### As cards are dealt:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Player's hand exceeds 21, dealer automatically wins (or vis versa)
+- Player's hand is less than or equal to 21 and contains 5 cards, winner automatically wins (or vis versa)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### After player and dealer have decided to **stick**:
+- Player's hand value exceeds dealers hand value, player wins (or vis versa)
+- Player's hand value and dealers hand value are the same but player has more cards, player wins (or vis versa)
+- Player's hand value and dealers hand value are the same and both have the same number of cards, but player has a higher card, player wins (or vis versa)
+- Player's hand value and dealers hand value are the same and both have the same number of cards and neither has a highest card, game reaches a draw.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Sanity Checks
+Selecting **stick** when your hand totals 10 or less will cause a popup to will appear asking to if you're sure you want to stick with your current score. You can select *yes* or *no*.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Likewise, selecting **hit** when your hand totals 18 or more will cause the same popup to appear, asking if you're sure you want another card. You can select *yes* or *no*.
 
-## Learn More
+## Score Tracking
+The "current best hand score" is updated every time a card is dealt. As an Ace can be treated as a 1 or 11, the relevant value is selected to get the hand as close to 21 as possible without exceeding it. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The total wins are also tracked, so you will see how many times the dealer has whooped your ass (at least in my case). This information is not preserved between screen refreshes.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Future Enhancements
+Have an option to disable popups entirely.
+
+Store total wins (history) in cache so it's preserved between refreshes.
+
+---
+# Working with the repo
+
+Just run `npm i` to install, and `npm start` to start the app.
