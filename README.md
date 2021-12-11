@@ -9,10 +9,15 @@ but doesnt really follow the rules of any one of these games.
 <summary>Click to see screenshots!</summary>>
 
 ![Initial Round](/docs/InitialRound.png)
-![Initial Round](/docs/DealerBust.png)
-![Initial Round](/docs/FiveCardTrick.png)
-![Initial Round](/docs/ConfirmStick.png)
-![Initial Round](/docs/ConfirmHit.png)
+![Dealer Bust](/docs/DealerBust.png)
+![Five Card Trick](/docs/FiveCardTrick.png)
+![Confirm Stick](/docs/ConfirmStick.png)
+![Confirm Hit](/docs/ConfirmHit.png)
+</details>
+<details>
+<summary>Click to see gameplay video</summary>
+
+![Confirm Hit](/docs/Gameplay.gif)
 </details>
 
 ---
