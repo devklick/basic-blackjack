@@ -32,7 +32,7 @@ const Table = () => {
   const [totalPlayerWins, setTotalPlayerWins] = useState<number>(0);
   const [totalDealerWins, setTotalDealerWins] = useState<number>(0);
   const [showHitWarningYesNoPopUp, setShowHitWarningYesNoPopUp] = useState<boolean>(false);
-
+  const [showStickWarningYesNoPopUp, setShowStickWarningYesNoPopUp] = useState<boolean>(false);
 
   /**
    * Performs the various relevant actions when a game has reached a result.
@@ -166,10 +166,16 @@ const Table = () => {
   /**
    * Handles the onClickStick event and performs the dealers betting.
    */
-  const clickStickHandler = () => {
+  const clickStickHandler = (overrideWarning: boolean = false) => {
     if (gameState !== GameState.PlayerRound) {
       return;
     }
+
+    if (playerScore <= 10 && !overrideWarning) {
+      setShowStickWarningYesNoPopUp(true);
+      return;
+    }
+
     setGameState(GameState.DealerRound);
 
     const _dealerCards = [...dealerCards];
@@ -196,20 +202,31 @@ const Table = () => {
 
   return (
     <>
-      {
-        showHitWarningYesNoPopUp
-          ?
-          <YesNoPopUp message="Are you sure?"
-            onClickYes={() => {
-              setShowHitWarningYesNoPopUp(false);
-              clickHitHandler(true);
-            }}
-            onClickNo={() => setShowHitWarningYesNoPopUp(false)}
-            onClickClose={() => setShowHitWarningYesNoPopUp(false)}
-          />
-          : null
-      }
       <div className={styles.Table}>
+        {
+          showHitWarningYesNoPopUp
+            ?
+            <YesNoPopUp message="Are you sure?"
+              onClickYes={() => {
+                setShowHitWarningYesNoPopUp(false);
+                clickHitHandler(true);
+              }}
+              onClickNo={() => setShowHitWarningYesNoPopUp(false)}
+            />
+            : null
+        }
+        {
+          showStickWarningYesNoPopUp
+            ?
+            <YesNoPopUp message="Are you sure?"
+              onClickYes={() => {
+                setShowStickWarningYesNoPopUp(false);
+                clickStickHandler(true);
+              }}
+              onClickNo={() => setShowStickWarningYesNoPopUp(false)}
+            />
+            : null
+        }
         <CardRow cardOwner={Participant.Dealer} cards={dealerCards} />
         <CardRow cardOwner={Participant.Player} cards={playerCards} />
         <InfoHud
@@ -218,7 +235,7 @@ const Table = () => {
           outcome={outcome}
           clickStartHandler={clickStartHandler}
           clickHitHandler={() => clickHitHandler(false)}
-          clickStickHandler={clickStickHandler}
+          clickStickHandler={() => clickStickHandler(false)}
           scoreBoardRows={[
             { participant: Participant.Player, score: playerScore, displayScore: true, totalWins: totalPlayerWins },
             { participant: Participant.Dealer, score: dealerScore, displayScore: showDealerScore, totalWins: totalDealerWins },

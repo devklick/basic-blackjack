@@ -4,7 +4,6 @@ export interface YesNoPopUpProps {
   message: string;
   onClickYes: () => void;
   onClickNo: () => void;
-  onClickClose: () => void;
 }
 
 const YesNoPopUp = (props: YesNoPopUpProps) => {
