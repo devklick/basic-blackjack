@@ -1,11 +1,11 @@
 {
   "name": "blackjack",
   "version": "0.1.0",
-  "private": true,
   "main": "./public/electron.js",
   "author": "devklick <devklick@gmail.com>",
   "description": "Basic blackjack(ish) app",
   "homepage": "./",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
@@ -14,6 +14,8 @@
     "@types/node": "^12.20.37",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -26,10 +28,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron:start": "concurrently -k \"cross-env BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electronmon .\"",
+    "dev": "concurrently -k \"cross-env BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electronmon .\"",
+    "electron": "wait-on tcp:3000 && electron-forge start",
     "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
     "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
-    "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js"
+    "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
+    "package": "react-scripts build && electron-forge package",
+    "make": "react-scripts build && electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -46,10 +51,16 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "electron": "^16.0.4",
-    "electron-builder": "^22.14.5",
+    "electron-devtools-installer": "^3.2.0",
     "electronmon": "^2.0.2",
     "wait-on": "^6.0.0"
   },
@@ -71,6 +82,47 @@
     },
     "linux": {
       "target": "deb"
+    }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "blackjack"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "devklick",
+              "name": "basic-blackjack"
+            }
+          },
+          "draft": true
+        }
+      ]
     }
   }
 }

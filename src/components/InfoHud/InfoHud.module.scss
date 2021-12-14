@@ -2,7 +2,9 @@
 
 .InfoHud {
     @include TableDarkRaisedSection;
+    position: absolute;
     bottom: 0;
+    width: 100%;
     .TableContainer {
         display: flex;
         gap: 10px;

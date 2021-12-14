@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import Table from './components/Table/Table';
 
 const App: React.FC = () => {
