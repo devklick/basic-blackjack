@@ -12,7 +12,8 @@ jobs:
       - name: install dependencies
         run: npm install
       - name: build
-        run: npm run electron:package:linux
+        # run: npm run electron:package:linux
+        run: npm run make
 
   build_on_mac:
     runs-on: macos-latest
@@ -26,7 +27,8 @@ jobs:
       - name: build
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
-        run: npm run electron:package:mac
+        # run: npm run electron:package:mac
+        run: npm run make
 
   build_on_win:
     runs-on: windows-latest
@@ -40,4 +42,5 @@ jobs:
       - name: build
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
-        run: npm run electron:package:win
+        # run: npm run electron:package:win
+        run: npm run make
