@@ -34,7 +34,8 @@
     "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
     "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
     "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make"
+    "make": "react-scripts build && electron-forge make",
+    "publish": "electron-forge publish"
   },
   "eslintConfig": {
     "extends": [
