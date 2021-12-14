@@ -1,6 +1,6 @@
 {
   "name": "blackjack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./public/electron.js",
   "author": "devklick <devklick@gmail.com>",
   "description": "Basic blackjack(ish) app",
