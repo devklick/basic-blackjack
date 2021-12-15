@@ -3,6 +3,7 @@ const path = require("path");
 const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 const url = require("url");
+const fs = require('fs');
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
@@ -34,20 +35,26 @@ function createWindow() {
 	console.log('is dev', isDev);
 	console.log('working wir', __dirname);
 	console.log('ls dir', require('fs').readdirSync(__dirname));
+
+	const prodPath = path.join(__dirname, 'index.html');
+	const exists = fs.existsSync(prodPath);
+	console.log(prodPath, exists);
+
 	win.loadURL(
 		isDev
 			? "http://localhost:3000"
 			: url.format({
-				pathname: path.join(__dirname, 'index.html'),
+				pathname: prodPath,
 				protocol: 'file:',
 				slashes: true
 			})
 	);
 
 	// Open the DevTools.
-	if (isDev) {
-		win.webContents.openDevTools({ mode: "detach" });
-	}
+	win.webContents.openDevTools({ mode: "detach" });
+	// if (isDev) {
+	// 	win.webContents.openDevTools({ mode: "detach" });
+	// }
 }
 
 // This method will be called when Electron has finished
