@@ -2,7 +2,7 @@ const path = require("path");
 
 const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
-const { url } = require("inspector");
+const url = require("url");
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
