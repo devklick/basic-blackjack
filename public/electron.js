@@ -2,6 +2,7 @@ const path = require("path");
 
 const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
+const { url } = require("inspector");
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
@@ -36,7 +37,11 @@ function createWindow() {
 	win.loadURL(
 		isDev
 			? "http://localhost:3000"
-			: `file://${path.join(__dirname, "./index.html")}`
+			: url.format({
+				pathname: path.join(__dirname, 'index.html'),
+				protocol: 'file:',
+				slashes: true
+			})
 	);
 
 	// Open the DevTools.
