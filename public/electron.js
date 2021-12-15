@@ -1,75 +1,52 @@
-// Module to control the application lifecycle and the native browser window.
-const { app, BrowserWindow, protocol } = require("electron");
 const path = require("path");
-const url = require("url");
-const isDev = require('electron-is-dev');
+
+const { app, BrowserWindow } = require("electron");
+const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
-let installExtension, REACT_DEVELOPER_TOOLS; // NEW!
+let installExtension, REACT_DEVELOPER_TOOLS;
 
 if (isDev) {
 	const devTools = require("electron-devtools-installer");
 	installExtension = devTools.default;
 	REACT_DEVELOPER_TOOLS = devTools.REACT_DEVELOPER_TOOLS;
-} // NEW!
+}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
 	app.quit();
 }
 
-// Create the native browser window.
 function createWindow() {
-	const mainWindow = new BrowserWindow({
+	// Create the browser window.
+	const win = new BrowserWindow({
 		width: 460,
 		height: 558,
 		resizable: false,
 		autoHideMenuBar: true,
-		// Set the path of an additional "preload" script that can be used to
-		// communicate between node-land and browser-land.
 		webPreferences: {
-			preload: path.join(__dirname, "preload.js"),
-		},
+			nodeIntegration: true
+		}
 	});
 
-	// In production, set the initial browser path to the local bundle generated
-	// by the Create React App build process.
-	// In development, set it to localhost to allow live/hot-reloading.
-	console.log(__dirname);
+	// and load the index.html of the app.
+	console.log('is dev', isDev);
+	console.log('working wir', __dirname);
+	console.log('ls dir', require('fs').readdirSync(__dirname));
+	win.loadURL(
+		isDev
+			? "http://localhost:3000"
+			: `file://${path.join(__dirname, "./index.html")}`
+	);
 
-	const appURL = isDev
-		? url.format({
-			pathname: path.join(__dirname, "../build/index.html"),
-			protocol: "file:",
-			slashes: true,
-		})
-		: "http://localhost:3000";
-
-	mainWindow.loadURL(appURL);
-
-	// Automatically open Chrome's DevTools in development mode.
+	// Open the DevTools.
 	if (isDev) {
-		mainWindow.webContents.openDevTools({ mode: "detach" });
+		win.webContents.openDevTools({ mode: "detach" });
 	}
 }
 
-// Setup a local proxy to adjust the paths of requested files when loading
-// them from the local production bundle (e.g.: local fonts, etc...).
-function setupLocalFilesNormalizerProxy() {
-	protocol.registerHttpProtocol(
-		"file",
-		(request, callback) => {
-			const url = request.url.substr(8);
-			callback({ path: path.normalize(`${__dirname}/${url}`) });
-		},
-		(error) => {
-			if (error) console.error("Failed to register protocol");
-		}
-	);
-}
-
-// This method will be called when Electron has finished its initialization and
-// is ready to create the browser windows.
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
 	createWindow();
@@ -79,39 +56,23 @@ app.whenReady().then(() => {
 			.then(name => console.log(`Added Extension:  ${name}`))
 			.catch(error => console.log(`An error occurred: , ${error}`));
 	}
-
-	setupLocalFilesNormalizerProxy();
-
-	app.on("activate", function () {
-		// On macOS it's common to re-create a window in the app when the
-		// dock icon is clicked and there are no other windows open.
-		if (BrowserWindow.getAllWindows().length === 0) {
-			createWindow();
-		}
-	});
 });
 
-// Quit when all windows are closed, except on macOS.
-// There, it's common for applications and their menu bar to stay active until
-// the user quits  explicitly with Cmd + Q.
-app.on("window-all-closed", function () {
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {
 		app.quit();
 	}
 });
 
-// If your app has no need to navigate or only needs to navigate to known pages,
-// it is a good idea to limit navigation outright to that known scope,
-// disallowing any other kinds of navigation.
-const allowedNavigationDestinations = "https://my-electron-app.com";
-app.on("web-contents-created", (event, contents) => {
-	contents.on("will-navigate", (event, navigationUrl) => {
-		const parsedUrl = new URL(navigationUrl);
-
-		if (!allowedNavigationDestinations.includes(parsedUrl.origin)) {
-			event.preventDefault();
-		}
-	});
+app.on("activate", () => {
+	// On macOS it's common to re-create a window in the app when the
+	// dock icon is clicked and there are no other windows open.
+	if (BrowserWindow.getAllWindows().length === 0) {
+		createWindow();
+	}
 });
 
 // In this file you can include the rest of your app's specific main process
