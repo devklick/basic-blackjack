@@ -16,6 +16,7 @@ jobs:
       - name: publish
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
+        run: npm run electron:package:linux
         run: npm run electron:publish:linux
 
   # publish_on_mac:
