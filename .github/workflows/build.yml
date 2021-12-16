@@ -14,8 +14,21 @@ jobs:
       - name: build
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
-        # run: npm run electron:package:linux
         run: npm run electron:package:linux
+
+  build_on_win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: 16
+      - name: install dependencies
+        run: npm install
+      - name: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
+        run: npm run electron:package:win
 
   # build_on_mac:
   #   runs-on: macos-latest
@@ -30,19 +43,4 @@ jobs:
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
   #       # run: npm run electron:package:mac
-  #       run: npm run make
-
-  # build_on_win:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: 16
-  #     - name: install dependencies
-  #       run: npm install
-  #     - name: build
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
-  #       # run: npm run electron:package:win
   #       run: npm run make
