@@ -12,6 +12,8 @@ jobs:
       - name: install dependencies
         run: npm install
       - name: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
         # run: npm run electron:package:linux
         run: npm run electron:package:linux
 
