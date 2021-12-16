@@ -29,13 +29,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"cross-env BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electronmon .\"",
-    "electron": "wait-on tcp:3000 && electron-forge start",
     "electron:package:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
     "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
     "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js",
-    "package": "react-scripts build && electron-forge package",
-    "make": "react-scripts build && electron-forge make",
-    "publish": "electron-forge publish"
+    "electron:publish:linux": "electron-builder --publish always --linux"
   },
   "eslintConfig": {
     "extends": [
@@ -52,22 +49,24 @@
     ]
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-deb": "^6.0.0-beta.61",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
-    "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "electron": "^16.0.4",
+    "electron-builder": "^22.14.5",
     "electron-devtools-installer": "^3.2.0",
     "electronmon": "^2.0.2",
     "wait-on": "^6.0.0"
   },
   "build": {
-    "appId": "com.electron.devklickBlackjack",
+    "appId": "com.devklick.BasicBlackjack",
     "productName": "Basic Blackjack",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "devklick",
+        "repo": "basic-blackjack"
+      }
+    ],
     "files": [
       "build/**/*",
       "node_modules/**/*"
@@ -82,45 +81,9 @@
       "target": "nsis"
     },
     "linux": {
-      "target": "deb"
-    }
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "blackjack"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "devklick",
-              "name": "basic-blackjack"
-            }
-          },
-          "draft": true
-        }
+      "target": "deb",
+      "publish": [
+        "github"
       ]
     }
   }
