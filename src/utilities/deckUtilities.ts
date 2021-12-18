@@ -64,6 +64,7 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 	if (deckType !== DeckType.Standard) {
 		throw new Error(`DeckType ${deckType} not yet supported.`);
 	}
+	const cardIndexes = [...Array(52).keys()]; // 0-51
 	const cards: CardObject[] = [];
 
 	Object.keys(CardRank).forEach(rank => {
@@ -78,11 +79,14 @@ export const generateDeck = (deckType: DeckType, shuffle: boolean = true): CardO
 			// in a random order to get a head start. Select a random index
 			// where the card should be inserted into the deck.
 			const index = shuffle
-				? randomIntInRange(0, cards.length)
+				? cardIndexes[randomIntInRange(0, cardIndexes.length - 1)]
 				: cards.length
 
 			// Insert the card into the deck
-			cards.splice(index, 0, card);
+			cards[index] = card;
+
+			const indexOfIndex = cardIndexes.indexOf(index);
+			cardIndexes.splice(indexOfIndex, 1);
 		})
 	})
 
