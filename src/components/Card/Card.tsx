@@ -1,29 +1,34 @@
 import React from "react";
 import styles from "./Card.module.scss";
 import "../../StyleConstants.scss";
+import { type } from "os";
 
-export enum CardSuit {
-  Diamond = "Diamond",
-  Heart = "Heart",
-  Club = "Club",
-  Spade = "Spade",
-}
+export const CardSuits = {
+  Diamond: "Diamond",
+  Heart: "Heart",
+  Club: "Club",
+  Spade: "Spade",
+} as const;
 
-export enum CardRank {
-  Ace = "Ace",
-  Two = "Two",
-  Three = "Three",
-  Four = "Four",
-  Five = "Five",
-  Six = "Six",
-  Seven = "Seven",
-  Eight = "Eight",
-  Nine = "Nine",
-  Ten = "Ten",
-  Jack = "Jack",
-  Queen = "Queen",
-  King = "King",
-}
+export type CardSuit = (typeof CardSuits)[keyof typeof CardSuits];
+
+export const CardRanks = {
+  Ace: "Ace",
+  Two: "Two",
+  Three: "Three",
+  Four: "Four",
+  Five: "Five",
+  Six: "Six",
+  Seven: "Seven",
+  Eight: "Eight",
+  Nine: "Nine",
+  Ten: "Ten",
+  Jack: "Jack",
+  Queen: "Queen",
+  King: "King",
+} as const;
+
+export type CardRank = (typeof CardRanks)[keyof typeof CardRanks];
 
 interface CardSuitMetadata {
   color: string;
@@ -31,10 +36,10 @@ interface CardSuitMetadata {
 }
 
 export const CardSuitMetadataMap: Record<CardSuit, CardSuitMetadata> = {
-  [CardSuit.Club]: { color: "black", symbol: "♣" },
-  [CardSuit.Diamond]: { color: "#c01f1f", symbol: "♦" },
-  [CardSuit.Heart]: { color: "#c01f1f", symbol: "♥" },
-  [CardSuit.Spade]: { color: "black", symbol: "♠" },
+  Club: { color: "black", symbol: "♣" },
+  Diamond: { color: "#c01f1f", symbol: "♦" },
+  Heart: { color: "#c01f1f", symbol: "♥" },
+  Spade: { color: "black", symbol: "♠" },
 };
 
 interface CardRankMetadata {
@@ -44,25 +49,27 @@ interface CardRankMetadata {
 }
 
 export const CardRankMetadataMap: Record<CardRank, CardRankMetadata> = {
-  [CardRank.Ace]: { values: [1, 11], relativeValues: [1, 14], symbol: "A" },
-  [CardRank.Two]: { values: [2], relativeValues: [2], symbol: "2" },
-  [CardRank.Three]: { values: [3], relativeValues: [3], symbol: "3" },
-  [CardRank.Four]: { values: [4], relativeValues: [4], symbol: "4" },
-  [CardRank.Five]: { values: [5], relativeValues: [5], symbol: "5" },
-  [CardRank.Six]: { values: [6], relativeValues: [6], symbol: "6" },
-  [CardRank.Seven]: { values: [7], relativeValues: [7], symbol: "7" },
-  [CardRank.Eight]: { values: [8], relativeValues: [8], symbol: "8" },
-  [CardRank.Nine]: { values: [9], relativeValues: [9], symbol: "9" },
-  [CardRank.Ten]: { values: [10], relativeValues: [10], symbol: "10" },
-  [CardRank.Jack]: { values: [10], relativeValues: [11], symbol: "J" },
-  [CardRank.Queen]: { values: [10], relativeValues: [12], symbol: "Q" },
-  [CardRank.King]: { values: [10], relativeValues: [13], symbol: "K" },
+  Ace: { values: [1, 11], relativeValues: [1, 14], symbol: "A" },
+  Two: { values: [2], relativeValues: [2], symbol: "2" },
+  Three: { values: [3], relativeValues: [3], symbol: "3" },
+  Four: { values: [4], relativeValues: [4], symbol: "4" },
+  Five: { values: [5], relativeValues: [5], symbol: "5" },
+  Six: { values: [6], relativeValues: [6], symbol: "6" },
+  Seven: { values: [7], relativeValues: [7], symbol: "7" },
+  Eight: { values: [8], relativeValues: [8], symbol: "8" },
+  Nine: { values: [9], relativeValues: [9], symbol: "9" },
+  Ten: { values: [10], relativeValues: [10], symbol: "10" },
+  Jack: { values: [10], relativeValues: [11], symbol: "J" },
+  Queen: { values: [10], relativeValues: [12], symbol: "Q" },
+  King: { values: [10], relativeValues: [13], symbol: "K" },
 };
 
-export enum Facing {
-  Up,
-  Down,
-}
+export const FacingDirections = {
+  Up: "Up",
+  Down: "Down",
+} as const;
+
+export type Facing = (typeof FacingDirections)[keyof typeof FacingDirections];
 
 export interface CardObject {
   suit: CardSuit;
@@ -77,7 +84,7 @@ const Card: React.FC<CardProps> = ({ rank, suit, facing }) => {
   const rankData = CardRankMetadataMap[rank];
   return (
     <>
-      {facing === Facing.Down ? (
+      {facing === "Down" ? (
         <div className={styles.Card} style={{ backgroundColor: "grey" }}>
           ?
         </div>

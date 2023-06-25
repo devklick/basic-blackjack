@@ -1,26 +1,28 @@
-import { useEffect, useState } from 'react';
-import { BestHand, calculateBestHand, DeckType, determineWinner, generateDeck } from '../../utilities/deckUtilities';
-import { CardObject, Facing } from '../Card/Card';
-import CardRow from '../CardRow/CardRow';
-import InfoHud from '../InfoHud/InfoHud';
-import YesNoPopUp from '../YesNoPopUp/YesNoPopUp';
-import styles from './Table.module.scss';
+import { useEffect, useState } from "react";
+import {
+  BestHand,
+  calculateBestHand,
+  DeckType,
+  determineWinner,
+  generateDeck,
+} from "../../utilities/deckUtilities";
+import { CardObject, Facing } from "../Card/Card";
+import CardRow from "../CardRow/CardRow";
+import InfoHud from "../InfoHud/InfoHud";
+import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
+import styles from "./Table.module.scss";
 
-export enum GameState {
-  WaitingForStart,
-  DealingCards,
-  PlayerRound,
-  DealerRound,
-  Result
-}
+export type GameState =
+  | "WaitingForStart"
+  | "DealingCards"
+  | "PlayerRound"
+  | "DealerRound"
+  | "Result";
 
-export enum Participant {
-  Dealer = 'Dealer',
-  Player = 'Player'
-}
+export type Participant = "Dealer" | "Player";
 
 const Table = () => {
-  const [gameState, setGameState] = useState<GameState>(GameState.WaitingForStart);
+  const [gameState, setGameState] = useState<GameState>("WaitingForStart");
   const [deckCards, setDeckCards] = useState<CardObject[]>([]);
   const [playerCards, setPlayerCards] = useState<CardObject[]>([]);
   const [dealerCards, setDealerCards] = useState<CardObject[]>([]);
@@ -34,27 +36,32 @@ const Table = () => {
   const [showDealerScore, setShowDealerScore] = useState<boolean>(false);
   const [totalPlayerWins, setTotalPlayerWins] = useState<number>(0);
   const [totalDealerWins, setTotalDealerWins] = useState<number>(0);
-  const [showHitWarningYesNoPopUp, setShowHitWarningYesNoPopUp] = useState<boolean>(false);
-  const [showStickWarningYesNoPopUp, setShowStickWarningYesNoPopUp] = useState<boolean>(false);
+  const [showHitWarningYesNoPopUp, setShowHitWarningYesNoPopUp] =
+    useState<boolean>(false);
+  const [showStickWarningYesNoPopUp, setShowStickWarningYesNoPopUp] =
+    useState<boolean>(false);
 
   /**
    * Performs the various relevant actions when a game has reached a result.
    * @param outcomeText The text to be displayed to describe the outcome
    * @param winner The participant that won the game
    */
-  const setResult = (outcomeText: string, winner?: Participant | null): void => {
-    setGameState(GameState.Result);
+  const setResult = (
+    outcomeText: string,
+    winner?: Participant | null
+  ): void => {
+    setGameState("Result");
     setOutcome(outcomeText);
     setGameOver(true);
-    if (winner === Participant.Dealer) {
-      setTotalDealerWins(current => current + 1);
-    } else if (winner === Participant.Player) {
-      setTotalPlayerWins(current => current + 1);
+    if (winner === "Dealer") {
+      setTotalDealerWins((current) => current + 1);
+    } else if (winner === "Player") {
+      setTotalPlayerWins((current) => current + 1);
     }
-  }
+  };
   /**
    * When a change to the dealerCars happens, this effect
-   * will calculate the dealers score and whether or not 
+   * will calculate the dealers score and whether or not
    * the player is bust or hits a five card trick
    * @todo //TODO: Need to determine winner properly.
    */
@@ -63,44 +70,43 @@ const Table = () => {
     setPlayerHand(_playerHand);
 
     if (_playerHand.score > 21) {
-      return setResult("Player bust, dealer wins!", Participant.Dealer);
+      return setResult("Player bust, dealer wins!", "Dealer");
     }
     if (playerCards.length === 5 && _playerHand.score <= 21) {
-      return setResult("Player wins with a five card trick!", Participant.Player);
+      return setResult("Player wins with a five card trick!", "Player");
     }
 
     const _dealerHand = calculateBestHand(dealerCards);
     setDealerHand(_dealerHand);
 
     if (_dealerHand.score > 21) {
-      return setResult("Dealer bust, player wins!", Participant.Player);
+      return setResult("Dealer bust, player wins!", "Player");
     }
     if (dealerCards.length === 5 && _dealerHand.score <= 21) {
-      return setResult("Dealer wins with a five card trick!", Participant.Dealer);
+      return setResult("Dealer wins with a five card trick!", "Dealer");
     }
-
-  }, [playerCards, dealerCards])
+  }, [playerCards, dealerCards]);
 
   /**
-   * This effect calculates the outcome when all participants 
-   * have played their cards and no one has went bust, i.e. the 
+   * This effect calculates the outcome when all participants
+   * have played their cards and no one has went bust, i.e. the
    * game has reached the resulting state.
    */
   useEffect(() => {
-    if (gameState === GameState.Result && !gameOver) {
+    if (gameState === "Result" && !gameOver) {
       const gameResult = determineWinner(playerHand, dealerHand);
 
       setResult(gameResult.winnerText, gameResult.winner);
     }
-  }, [gameState, playerHand, dealerHand, gameOver])
+  }, [gameState, playerHand, dealerHand, gameOver]);
 
   /**
-   * Handles the onClickStart event and starts a new game. 
-   * Deals a card facing up to player, a card facing up to dealer, 
+   * Handles the onClickStart event and starts a new game.
+   * Deals a card facing up to player, a card facing up to dealer,
    * another card facing up to player, and finally a card cafing down to dealer
    */
   const clickStartHandler = (): void => {
-    if (gameState !== GameState.WaitingForStart && !gameOver) {
+    if (gameState !== "WaitingForStart" && !gameOver) {
       return;
     }
     setShowDealerScore(false);
@@ -109,9 +115,9 @@ const Table = () => {
     setDealerCards([]);
     setPlayerHand(defaultBestHand);
     setDealerHand(defaultBestHand);
-    setGameState(GameState.DealingCards);
+    setGameState("DealingCards");
 
-    let _deck = generateDeck(DeckType.Standard);
+    let _deck = generateDeck("Standard");
 
     const _playerCards: CardObject[] = [];
     const _dealerCards: CardObject[] = [];
@@ -135,13 +141,13 @@ const Table = () => {
     setPlayerCards(_playerCards);
 
     cardToDeal = _deck[_deck.length - 1];
-    cardToDeal.facing = Facing.Down;
+    cardToDeal.facing = "Down";
     _deck = _deck.slice(0, _deck.length - 1);
     setDeckCards(_deck);
     _dealerCards.push(cardToDeal);
     setDealerCards(_dealerCards);
 
-    setGameState(GameState.PlayerRound);
+    setGameState("PlayerRound");
   };
 
   /**
@@ -149,7 +155,7 @@ const Table = () => {
    * the deck and giving it to the player
    */
   const clickHitHandler = (overrideWarning: boolean = false) => {
-    if (gameState !== GameState.PlayerRound) {
+    if (gameState !== "PlayerRound") {
       return;
     }
 
@@ -171,7 +177,7 @@ const Table = () => {
    * Handles the onClickStick event and performs the dealers betting.
    */
   const clickStickHandler = (overrideWarning: boolean = false) => {
-    if (gameState !== GameState.PlayerRound) {
+    if (gameState !== "PlayerRound") {
       return;
     }
 
@@ -180,10 +186,10 @@ const Table = () => {
       return;
     }
 
-    setGameState(GameState.DealerRound);
+    setGameState("DealerRound");
 
     const _dealerCards = [...dealerCards];
-    _dealerCards.forEach(card => card.facing = Facing.Up);
+    _dealerCards.forEach((card) => (card.facing = "Up"));
     setShowDealerScore(true);
 
     let updatedDeck = [...deckCards];
@@ -201,38 +207,34 @@ const Table = () => {
 
       score = calculateBestHand(_dealerCards).score;
     }
-    setTimeout(() => setGameState(GameState.Result), 10);
+    setTimeout(() => setGameState("Result"), 10);
   };
 
   return (
     <>
       <div className={styles.Table}>
-        {
-          showHitWarningYesNoPopUp
-            ?
-            <YesNoPopUp message="Are you sure?"
-              onClickYes={() => {
-                setShowHitWarningYesNoPopUp(false);
-                clickHitHandler(true);
-              }}
-              onClickNo={() => setShowHitWarningYesNoPopUp(false)}
-            />
-            : null
-        }
-        {
-          showStickWarningYesNoPopUp
-            ?
-            <YesNoPopUp message="Are you sure?"
-              onClickYes={() => {
-                setShowStickWarningYesNoPopUp(false);
-                clickStickHandler(true);
-              }}
-              onClickNo={() => setShowStickWarningYesNoPopUp(false)}
-            />
-            : null
-        }
-        <CardRow cardOwner={Participant.Dealer} cards={dealerCards} />
-        <CardRow cardOwner={Participant.Player} cards={playerCards} />
+        {showHitWarningYesNoPopUp ? (
+          <YesNoPopUp
+            message="Are you sure?"
+            onClickYes={() => {
+              setShowHitWarningYesNoPopUp(false);
+              clickHitHandler(true);
+            }}
+            onClickNo={() => setShowHitWarningYesNoPopUp(false)}
+          />
+        ) : null}
+        {showStickWarningYesNoPopUp ? (
+          <YesNoPopUp
+            message="Are you sure?"
+            onClickYes={() => {
+              setShowStickWarningYesNoPopUp(false);
+              clickStickHandler(true);
+            }}
+            onClickNo={() => setShowStickWarningYesNoPopUp(false)}
+          />
+        ) : null}
+        <CardRow cardOwner={"Dealer"} cards={dealerCards} />
+        <CardRow cardOwner={"Player"} cards={playerCards} />
         <InfoHud
           gameOver={gameOver}
           gameState={gameState}
@@ -241,13 +243,23 @@ const Table = () => {
           clickHitHandler={() => clickHitHandler(false)}
           clickStickHandler={() => clickStickHandler(false)}
           scoreBoardRows={[
-            { participant: Participant.Dealer, score: dealerHand.score, displayScore: showDealerScore, totalWins: totalDealerWins },
-            { participant: Participant.Player, score: playerHand.score, displayScore: true, totalWins: totalPlayerWins }
+            {
+              participant: "Dealer",
+              score: dealerHand.score,
+              displayScore: showDealerScore,
+              totalWins: totalDealerWins,
+            },
+            {
+              participant: "Player",
+              score: playerHand.score,
+              displayScore: true,
+              totalWins: totalPlayerWins,
+            },
           ]}
         />
       </div>
     </>
   );
-}
+};
 
 export default Table;

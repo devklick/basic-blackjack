@@ -1,12 +1,12 @@
-import React from 'react';
-import { GameState, Participant } from '../Table/Table';
-import styles from './InfoHud.module.scss';
+import React from "react";
+import { GameState, Participant } from "../Table/Table";
+import styles from "./InfoHud.module.scss";
 
 export interface ScoreBoardRow {
   participant: Participant;
   score: number;
   displayScore: boolean;
-  totalWins: number
+  totalWins: number;
 }
 
 export interface InfoHudProps {
@@ -26,56 +26,68 @@ const getScoreBoard = (scoreBoardRows: ScoreBoardRow[]) => {
         <tr>
           <th>Participant</th>
           <th>Hand Score</th>
-
         </tr>
-        {
-          scoreBoardRows.map(row => {
-            return (
-              <tr>
-                <td>{row.participant}</td>
-                <td>{row.displayScore ? row.score : '?'}</td>
-
-              </tr>
-            )
-          })
-        }
+        {scoreBoardRows.map((row) => {
+          return (
+            <tr>
+              <td>{row.participant}</td>
+              <td>{row.displayScore ? row.score : "?"}</td>
+            </tr>
+          );
+        })}
       </table>
       <table className={styles.ScoreTable}>
         <th>Total Wins</th>
-        {
-          scoreBoardRows.map(row => {
-            return (
-              <tr><td>{row.totalWins}</td></tr>
-            )
-          })
-        }
+        {scoreBoardRows.map((row) => {
+          return (
+            <tr>
+              <td>{row.totalWins}</td>
+            </tr>
+          );
+        })}
       </table>
     </div>
-  )
-}
+  );
+};
 
 const InfoHud = (props: InfoHudProps) => {
   return (
     <div className={styles.InfoHud}>
       {/* {props.gameOver ? <div className={styles.Outcome}>{props.outcome}</div> : null} */}
-      <div className={styles.Outcome}>{props.gameOver ? props.outcome : null}</div>
-      {props.gameState !== GameState.WaitingForStart ?
-        getScoreBoard(props.scoreBoardRows)
+      <div className={styles.Outcome}>
+        {props.gameOver ? props.outcome : null}
+      </div>
+      {props.gameState !== "WaitingForStart"
+        ? getScoreBoard(props.scoreBoardRows)
         : null}
       <div className={styles.ButtonContainer}>
-        {props.gameState === GameState.WaitingForStart || props.gameOver
-          ? <button className={styles.StartButton} onClick={props.clickStartHandler}>{props.gameOver ? 'Restart' : 'Start'}</button>
-          : null}
-        {props.gameState === GameState.PlayerRound && !props.gameOver
-          ? <>
-            <button className={styles.HitButton} onClick={props.clickHitHandler}>Hit</button>
-            <button className={styles.StickButton} onClick={props.clickStickHandler}>Stick</button>
+        {props.gameState === "WaitingForStart" || props.gameOver ? (
+          <button
+            className={styles.StartButton}
+            onClick={props.clickStartHandler}
+          >
+            {props.gameOver ? "Restart" : "Start"}
+          </button>
+        ) : null}
+        {props.gameState === "PlayerRound" && !props.gameOver ? (
+          <>
+            <button
+              className={styles.HitButton}
+              onClick={props.clickHitHandler}
+            >
+              Hit
+            </button>
+            <button
+              className={styles.StickButton}
+              onClick={props.clickStickHandler}
+            >
+              Stick
+            </button>
           </>
-          : null}
+        ) : null}
       </div>
-
     </div>
   );
-}
+};
 
 export default InfoHud;
