@@ -36,10 +36,10 @@ interface CardSuitMetadata {
 }
 
 export const CardSuitMetadataMap: Record<CardSuit, CardSuitMetadata> = {
-  Club: { color: "black", symbol: "♣" },
+  Club: { color: "#000000", symbol: "♣" },
   Diamond: { color: "#c01f1f", symbol: "♦" },
   Heart: { color: "#c01f1f", symbol: "♥" },
-  Spade: { color: "black", symbol: "♠" },
+  Spade: { color: "#000000", symbol: "♠" },
 };
 
 interface CardRankMetadata {
