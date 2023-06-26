@@ -1,3 +1,10 @@
+## [0.2.5](https://github.com/devklick/basic-blackjack/compare/v0.2.4...v0.2.5) (2023-06-26)
+
+
+### Bug Fixes
+
+* env vars in windows build ([64b65b5](https://github.com/devklick/basic-blackjack/commit/64b65b5c784a5b981f471b93128ccc455f111cf6))
+
 ## [0.2.4](https://github.com/devklick/basic-blackjack/compare/v0.2.3...v0.2.4) (2023-06-26)
 
 
