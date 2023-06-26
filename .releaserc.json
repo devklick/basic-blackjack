@@ -16,12 +16,12 @@
       {
         "assets": [
           {
-            "path": "dist/basic-blackjack_${nextRelease.gitTag}.deb",
+            "path": "dist/basic-blackjack_*.deb",
             "label": "BasicBlackjack_${nextRelease.gitTag}.deb",
             "name": "BasicBlackjack_${nextRelease.gitTag}.deb"
           },
           {
-            "path": "dist/basic-blackjack_${nextRelease.gitTag}.exe",
+            "path": "dist/basic-blackjack_*.exe",
             "label": "BasicBlackjack_${nextRelease.gitTag}.exe",
             "name": "BasicBlackjack_${nextRelease.gitTag}.exe"
           }

@@ -53,7 +53,7 @@ jobs:
         run: npm run electron:package:linux
 
       - name: Publish Windows
-        run: npm run electron:package:linux
+        run: npm run electron:package:win
 
       - name: List
         run: |
