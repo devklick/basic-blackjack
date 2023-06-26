@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import {
   BestHand,
   calculateBestHand,
-  DeckType,
   determineWinner,
   generateDeck,
 } from "../../utilities/deckUtilities";
-import { CardObject, Facing } from "../Card/Card";
+import { CardObject } from "../Card/Card";
 import CardRow from "../CardRow/CardRow";
 import InfoHud from "../InfoHud/InfoHud";
 import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
@@ -26,8 +25,6 @@ const Table = () => {
   const [deckCards, setDeckCards] = useState<CardObject[]>([]);
   const [playerCards, setPlayerCards] = useState<CardObject[]>([]);
   const [dealerCards, setDealerCards] = useState<CardObject[]>([]);
-  // const [playerScore, setPlayerScore] = useState<number>(0);
-  // const [dealerScore, setDealerScore] = useState<number>(0);
   const defaultBestHand: BestHand = { cards: [], score: 0 };
   const [playerHand, setPlayerHand] = useState<BestHand>(defaultBestHand);
   const [dealerHand, setDealerHand] = useState<BestHand>(defaultBestHand);

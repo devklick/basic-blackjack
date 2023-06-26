@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Card.module.scss";
 import "../../StyleConstants.scss";
-import { type } from "os";
 
 export const CardSuits = {
   Diamond: "Diamond",
