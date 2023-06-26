@@ -67,13 +67,6 @@
   "build": {
     "appId": "com.devklick.BasicBlackjack",
     "productName": "Basic Blackjack",
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "devklick",
-        "repo": "basic-blackjack"
-      }
-    ],
     "files": [
       "build/**/*",
       "node_modules/**/*"
@@ -85,16 +78,10 @@
       "target": "dmg"
     },
     "win": {
-      "target": "nsis",
-      "publish": [
-        "github"
-      ]
+      "target": "nsis"
     },
     "linux": {
-      "target": "deb",
-      "publish": [
-        "github"
-      ]
+      "target": "deb"
     }
   }
 }
