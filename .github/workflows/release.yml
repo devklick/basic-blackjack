@@ -25,7 +25,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx semantic-release --branches ${{env.BRANCH_NAME}} --dry-run
+          npx semantic-release --branches "master" --dry-run
       - name: Capture next version
         id: capture-next-version
         # RELEASE_VERSION by semantic-release in previous step, see .releaserc.json
