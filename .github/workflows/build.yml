@@ -2,10 +2,10 @@ name: Build
 on:
   push:
     branches:
-      - dev
-      - feature/*
-      - fix/*
-      - master
+      - dev-STOP
+      - feature/*-STOP
+      - fix/*-STOP
+      - master-STOP
   pull_request:
     types:
       - opened

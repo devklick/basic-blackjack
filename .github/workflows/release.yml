@@ -47,7 +47,7 @@ jobs:
         run: npm install
 
       - name: Update package.json
-        run: jq -c '.version="${{env.RELEASE_VERSION}}"' package.json > tmp.$$.json && mv tmp.$$.json package.json
+        run: jq '.version="${{env.RELEASE_VERSION}}"' package.json > tmp.$$.json && mv tmp.$$.json package.json
 
       - name: Publish Linux
         run: npm run electron:package:linux
@@ -55,7 +55,52 @@ jobs:
       - name: Publish Windows
         run: npm run electron:package:linux
 
+      - name: List
+        run: |
+          ls 
+          ls dist
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release --branches master
+
+  # deploy-pages:
+  #   runs-on: ubuntu-latest
+  #   needs: determine-next-release
+  #   if: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   env:
+  #     RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@master
+  #       with:
+  #         node-version: 18
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Run build
+  #       env:
+  #         REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
+  #       run: npm run build
+
+  #     # # changes the base-tag in index.html from '/' to 'Snek.Web' to match GitHub Pages repository subdirectory
+  #     # - name: Change base-tag in index.html from / to Snek
+  #     #   run: sed -i 's/<base href="\/" \/>/<base href="\/Snek\/" \/>/g' build/index.html
+
+  #     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+  #     - name: Add .nojekyll file
+  #       run: touch build/.nojekyll
+
+  #     - name: Commit wwwroot to GitHub Pages
+  #       uses: JamesIves/github-pages-deploy-action@3.7.1
+  #       with:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         BRANCH: gh-pages
+  #         FOLDER: build
