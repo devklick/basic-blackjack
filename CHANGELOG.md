@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/devklick/basic-blackjack/compare/v0.2.0...v0.2.1) (2023-06-26)
+
+
+### Bug Fixes
+
+* debug release ([70c844a](https://github.com/devklick/basic-blackjack/commit/70c844a6110b1e9126e97bc4b22f14da4317f0fd))
+
 # [0.2.0](https://github.com/devklick/basic-blackjack/compare/v0.1.15...v0.2.0) (2023-06-26)
 
 
