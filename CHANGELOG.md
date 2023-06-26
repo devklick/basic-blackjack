@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/devklick/basic-blackjack/compare/v0.2.1...v0.2.2) (2023-06-26)
+
+
+### Bug Fixes
+
+* globs in release asset paths ([61a57a0](https://github.com/devklick/basic-blackjack/commit/61a57a07c39db9c32e201c1b2501c43ac7b76f3e))
+
 ## [0.2.1](https://github.com/devklick/basic-blackjack/compare/v0.2.0...v0.2.1) (2023-06-26)
 
 
