@@ -10,6 +10,8 @@ on:
     types:
       - opened
       - edited
+  workflow_dispatch:
+
 jobs:
   build_on_linux:
     runs-on: ubuntu-latest
