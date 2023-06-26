@@ -1,0 +1,32 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/exec",
+      {
+        "verifyReleaseCmd": "echo RELEASE_VERSION=${nextRelease.version} >> $GITHUB_ENV"
+      }
+    ],
+    "@semantic-release/npm",
+    "@semantic-release/git",
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/basic-blackjack_${nextRelease.gitTag}.deb",
+            "label": "BasicBlackjack_${nextRelease.gitTag}.deb",
+            "name": "BasicBlackjack_${nextRelease.gitTag}.deb"
+          },
+          {
+            "path": "dist/basic-blackjack_${nextRelease.gitTag}.exe",
+            "label": "BasicBlackjack_${nextRelease.gitTag}.exe",
+            "name": "BasicBlackjack_${nextRelease.gitTag}.exe"
+          }
+        ]
+      }
+    ]
+  ]
+}

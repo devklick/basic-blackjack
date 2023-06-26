@@ -1,51 +1,61 @@
 name: Release
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
 jobs:
-  publish_on_linux:
+  determine-next-release:
     runs-on: ubuntu-latest
+    outputs:
+      next-release-version: ${{steps.capture-next-version.outputs.NEXT_RELEASE_VERSION}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
-          node-version: 18
-      - name: install dependencies
-        run: npm install
-      - name: publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_BUILD_PAT }}
-        run: |
-          npm run electron:package:linux
-          npm run electron:publish:linux
+          fetch-depth: 0
 
-  publish_on_win:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
       - uses: actions/setup-node@master
         with:
           node-version: 18
       - name: install dependencies
         run: npm install
-      - name: publish
+
+      - name: Fetch next version
+        id: fetch-next-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run electron:package:win
-          npm run electron:publish:win
+          npx semantic-release --branches ${{env.BRANCH_NAME}} --dry-run
+      - name: Capture next version
+        id: capture-next-version
+        # RELEASE_VERSION by semantic-release in previous step, see .releaserc.json
+        run: echo "NEXT_RELEASE_VERSION=${{env.RELEASE_VERSION}}" >> $GITHUB_OUTPUT
 
-  # publish_on_mac:
-  #   runs-on: macos-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: 16
-  #     - name: install dependencies
-  #       run: npm install
-  #     - name: publish
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: npm run publish
+  publish-and-release:
+    runs-on: ubuntu-latest
+    needs: determine-next-release
+    if: ${{needs.determine-next-release.outputs.next-release-version}}
+    env:
+      RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18
+
+      - name: install dependencies
+        run: npm install
+
+      - name: Update package.json
+        run: jq -c '.version="${{env.RELEASE_VERSION}}"' package.json > tmp.$$.json && mv tmp.$$.json package.json
+
+      - name: Publish Linux
+        run: npm run electron:package:linux
+
+      - name: Publish Windows
+        run: npm run electron:package:linux
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --branches master
