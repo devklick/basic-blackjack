@@ -49,11 +49,6 @@ jobs:
       - name: Publish Linux
         run: npm run electron:package:linux -- -c.extraMetadata.version=${{env.RELEASE_VERSION}}
 
-      - name: List Contents
-        run: |
-          ls
-          ls build
-
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +70,12 @@ jobs:
         run: npm install
 
       - name: Publish Windows
-        run: npm run electron:package:win -- -c.extraMetadata.version=${{env.RELEASE_VERSION}}
+        run: npm run electron:package:win -- -c.extraMetadata.version=$env:RELEASE_VERSION
+
+      - name: List Contents
+        run: |
+          ls
+          ls build
 
       - name: Release
         env:
