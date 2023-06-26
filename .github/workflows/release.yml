@@ -77,7 +77,7 @@ jobs:
         run: npm install
 
       - name: Publish Windows
-        run: npm run electron:package:win -- -c.extraMetadata.version=$env:RELEASE_VERSION
+        run: npm run electron:package:win --release_version=$env:RELEASE_VERSION
 
       - name: Release
         env:
