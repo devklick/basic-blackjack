@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/devklick/basic-blackjack/compare/v0.2.2...v0.2.3) (2023-06-26)
+
+
+### Bug Fixes
+
+* publish windows and linux ([e1321a1](https://github.com/devklick/basic-blackjack/commit/e1321a182fc8cd9a113ed92b5c6475938857e160))
+
 ## [0.2.2](https://github.com/devklick/basic-blackjack/compare/v0.2.1...v0.2.2) (2023-06-26)
 
 
