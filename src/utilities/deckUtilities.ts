@@ -3,7 +3,6 @@ import {
   CardRankMetadataMap,
   CardRanks,
   CardSuits,
-  Facing,
 } from "../components/Card/Card";
 import { Participant } from "../components/Table/Table";
 import { randomIntInRange } from "./randomUtilities";
