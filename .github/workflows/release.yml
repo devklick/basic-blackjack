@@ -33,28 +33,28 @@ jobs:
         # RELEASE_VERSION by semantic-release in previous step, see .releaserc.json
         run: echo "NEXT_RELEASE_VERSION=${{env.RELEASE_VERSION}}" >> $GITHUB_OUTPUT
 
-  # publish-and-release-linux:
-  #   runs-on: ubuntu-latest
-  #   needs: determine-next-release
-  #   if: ${{needs.determine-next-release.outputs.next-release-version}}
-  #   env:
-  #     RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: 18
+  publish-and-release-linux:
+    runs-on: ubuntu-latest
+    needs: determine-next-release
+    if: ${{needs.determine-next-release.outputs.next-release-version}}
+    env:
+      RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18
 
-  #     - name: install dependencies
-  #       run: npm install
+      - name: install dependencies
+        run: npm install
 
-  #     - name: Publish Linux
-  #       run: npm run electron:package:linux --release_version=${{env.RELEASE_VERSION}}
+      - name: Publish Linux
+        run: npm run electron:package:linux
 
-  #     - name: Release
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: npx semantic-release --branches master
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --branches master
 
   publish-and-release-windows:
     runs-on: windows-latest
@@ -84,42 +84,38 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release --branches master
 
-  # deploy-pages:
-  #   runs-on: ubuntu-latest
-  #   needs: determine-next-release
-  #   if: ${{needs.determine-next-release.outputs.next-release-version}}
-  #   env:
-  #     RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
+  deploy-pages:
+    runs-on: ubuntu-latest
+    needs: determine-next-release
+    if: ${{needs.determine-next-release.outputs.next-release-version}}
+    env:
+      RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-  #     - name: Setup Node
-  #       uses: actions/setup-node@master
-  #       with:
-  #         node-version: 18
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 18
 
-  #     - name: Install dependencies
-  #       run: npm install
+      - name: Install dependencies
+        run: npm install
 
-  #     - name: Run build
-  #       env:
-  #         REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
-  #       run: npm run build
+      - name: Run build
+        env:
+          REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
+        run: npm run build
 
-  #     # # changes the base-tag in index.html from '/' to 'Snek.Web' to match GitHub Pages repository subdirectory
-  #     # - name: Change base-tag in index.html from / to Snek
-  #     #   run: sed -i 's/<base href="\/" \/>/<base href="\/Snek\/" \/>/g' build/index.html
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch build/.nojekyll
 
-  #     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-  #     - name: Add .nojekyll file
-  #       run: touch build/.nojekyll
-
-  #     - name: Commit wwwroot to GitHub Pages
-  #       uses: JamesIves/github-pages-deploy-action@3.7.1
-  #       with:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         BRANCH: gh-pages
-  #         FOLDER: build
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
