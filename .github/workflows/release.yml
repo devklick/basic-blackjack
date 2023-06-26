@@ -52,8 +52,8 @@ jobs:
       - name: Publish Linux
         run: npm run electron:package:linux
 
-      - name: Publish Windows
-        run: npm run electron:package:win
+      # - name: Publish Windows
+      #   run: npm run electron:package:win
 
       - name: List
         run: |
