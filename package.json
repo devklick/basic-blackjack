@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/npm": "^10.0.4",
     "concurrently": "^6.4.0",
