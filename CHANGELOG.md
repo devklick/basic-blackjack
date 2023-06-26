@@ -1,3 +1,14 @@
+## [0.2.6](https://github.com/devklick/basic-blackjack/compare/v0.2.5...v0.2.6) (2023-06-26)
+
+
+### Bug Fixes
+
+* different approach ([b336171](https://github.com/devklick/basic-blackjack/commit/b336171049f52496737919ee87f5c17db35ab51d))
+* re-instate linux and pages build, never publish via electron ([5da7037](https://github.com/devklick/basic-blackjack/commit/5da7037b2697e55f6f1963c3f546c8bd355d7083))
+* Trying to fix windows publish ([a5e6185](https://github.com/devklick/basic-blackjack/commit/a5e618512b503c5b6a141ecf557fed60c141061a))
+* updated electron-builder ([49b2b21](https://github.com/devklick/basic-blackjack/commit/49b2b21794fae150770eb4f3dc0b9288ec2c2478))
+* windows ([6bd3b77](https://github.com/devklick/basic-blackjack/commit/6bd3b7755db6870eba401e285ac4cca36e1de853))
+
 ## [0.2.5](https://github.com/devklick/basic-blackjack/compare/v0.2.4...v0.2.5) (2023-06-26)
 
 
