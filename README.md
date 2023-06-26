@@ -22,7 +22,13 @@ but doesnt really follow the rules of any one of these games.
 
 ---
 
-## Installation
+## Play the game
+You can play the game directly in your browser or download the desktop app for your operating system. 
+
+### Browser
+https://devklick.github.io/basic-blackjack/
+
+### Desktop
 Download the relevant installer from the [releases page](https://github.com/devklick/basic-blackjack/releases).
 Note that at this time, only Windows and Linux operating systems are supported.
 Note that the installers are not currently signed and likely never will be. Your operating system will likely throw up all sorts of warnigs and installing an unknown application. The risk is yours.
