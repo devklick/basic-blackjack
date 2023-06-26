@@ -49,7 +49,7 @@ jobs:
       - name: Publish Linux
         run: npm run electron:package:linux -- -c.extraMetadata.version=${{env.RELEASE_VERSION}}
 
-      - name: List
+      - name: List Contents
         run: |
           ls
           ls build
