@@ -14,76 +14,50 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@master
+      - name: Setup Node
+        uses: actions/setup-node@master
         with:
           node-version: 18
-      - name: install dependencies
+
+      - name: Install Dependencies
         run: npm install
 
-      - name: Fetch next version
+      - name: Fetch Next Version
         id: fetch-next-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npx semantic-release --branches "master" --dry-run
-      - name: Capture next version
+        run: npx semantic-release --branches "master" --dry-run
+
+      - name: Capture Next Version
         id: capture-next-version
         # RELEASE_VERSION by semantic-release in previous step, see .releaserc.json
         run: echo "NEXT_RELEASE_VERSION=${{env.RELEASE_VERSION}}" >> $GITHUB_OUTPUT
 
-  publish-and-release-linux:
-    runs-on: ubuntu-latest
-    needs: determine-next-release
-    if: ${{needs.determine-next-release.outputs.next-release-version}}
-    env:
-      RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
-        with:
-          node-version: 18
+  # publish-and-release-linux:
+  #   runs-on: ubuntu-latest
+  #   needs: determine-next-release
+  #   if: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   env:
+  #     RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: 18
 
-      - name: install dependencies
-        run: npm install
+  #     - name: install dependencies
+  #       run: npm install
 
-      - name: Publish Linux
-        run: npm run electron:package:linux -- -c.extraMetadata.version=${{env.RELEASE_VERSION}}
+  #     - name: Publish Linux
+  #       run: npm run electron:package:linux -- -c.extraMetadata.version=${{env.RELEASE_VERSION}}
 
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release --branches master
+  #     - name: Release
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: npx semantic-release --branches master
 
   publish-and-release-windows:
     runs-on: windows-latest
-    needs: determine-next-release
-    if: ${{needs.determine-next-release.outputs.next-release-version}}
-    env:
-      RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
-        with:
-          node-version: 18
-
-      - name: install dependencies
-        run: npm install
-
-      - name: Publish Windows
-        run: npm run electron:package:win -- -c.extraMetadata.version=$env:RELEASE_VERSION
-
-      - name: List Contents
-        run: |
-          ls
-          ls build
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release --branches master
-
-  deploy-pages:
-    runs-on: ubuntu-latest
     needs: determine-next-release
     if: ${{needs.determine-next-release.outputs.next-release-version}}
     env:
@@ -99,25 +73,53 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: install dependencies
         run: npm install
 
-      - name: Run build
+      - name: Publish Windows
+        run: npm run electron:package:win -- -c.extraMetadata.version=$env:RELEASE_VERSION
+
+      - name: Release
         env:
-          REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
-        run: npm run build
-
-      # # changes the base-tag in index.html from '/' to 'Snek.Web' to match GitHub Pages repository subdirectory
-      # - name: Change base-tag in index.html from / to Snek
-      #   run: sed -i 's/<base href="\/" \/>/<base href="\/Snek\/" \/>/g' build/index.html
-
-      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-      - name: Add .nojekyll file
-        run: touch build/.nojekyll
-
-      - name: Commit wwwroot to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: build
+        run: npx semantic-release --branches master
+
+  # deploy-pages:
+  #   runs-on: ubuntu-latest
+  #   needs: determine-next-release
+  #   if: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   env:
+  #     RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@master
+  #       with:
+  #         node-version: 18
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Run build
+  #       env:
+  #         REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
+  #       run: npm run build
+
+  #     # # changes the base-tag in index.html from '/' to 'Snek.Web' to match GitHub Pages repository subdirectory
+  #     # - name: Change base-tag in index.html from / to Snek
+  #     #   run: sed -i 's/<base href="\/" \/>/<base href="\/Snek\/" \/>/g' build/index.html
+
+  #     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+  #     - name: Add .nojekyll file
+  #       run: touch build/.nojekyll
+
+  #     - name: Commit wwwroot to GitHub Pages
+  #       uses: JamesIves/github-pages-deploy-action@3.7.1
+  #       with:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         BRANCH: gh-pages
+  #         FOLDER: build
