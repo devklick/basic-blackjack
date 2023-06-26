@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/devklick/basic-blackjack/compare/v0.2.3...v0.2.4) (2023-06-26)
+
+
+### Bug Fixes
+
+* debug windows ([f869f6c](https://github.com/devklick/basic-blackjack/commit/f869f6caa655ac7cdde2dd98a7a43bbd6ee58024))
+
 ## [0.2.3](https://github.com/devklick/basic-blackjack/compare/v0.2.2...v0.2.3) (2023-06-26)
 
 
