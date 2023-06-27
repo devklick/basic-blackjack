@@ -65,6 +65,7 @@
   "build": {
     "appId": "com.devklick.BasicBlackjack",
     "productName": "Basic Blackjack",
+    "artifactName": "basic-blackjack_${os}-${arch}_${version}.${ext}",
     "files": [
       "build/**/*",
       "node_modules/**/*"
