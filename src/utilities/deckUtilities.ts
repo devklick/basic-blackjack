@@ -167,54 +167,89 @@ export const determineWinner = (
   playerHand: BestHand,
   dealerHand: BestHand
 ): GameResult => {
-  if (playerHand.score > dealerHand.score) {
-    return {
-      winner: "Player",
-      winnerText: "Player wins with a high score",
-    };
+  const scoreWinner = getScoreWinner(playerHand.score, dealerHand.score);
+
+  if (scoreWinner) {
+    return scoreWinner;
   }
-  if (dealerHand.score > playerHand.score) {
-    return {
-      winner: "Dealer",
-      winnerText: "Dealer wins with a high score",
-    };
+
+  const cardCountWinner = getCardCountWinner(
+    playerHand.cards,
+    dealerHand.cards
+  );
+
+  if (cardCountWinner) {
+    return cardCountWinner;
   }
-  if (playerHand.cards.length > dealerHand.cards.length) {
-    return {
-      winner: "Player",
-      winnerText: "Player wins with the most cards",
-    };
+
+  const highCardWinner = getHighCardWinner(playerHand.cards, dealerHand.cards);
+
+  if (highCardWinner) {
+    return highCardWinner;
   }
-  if (dealerHand.cards.length > playerHand.cards.length) {
-    return {
-      winner: "Dealer",
-      winnerText: "Dealer wins with the most cards",
-    };
-  }
-  const cardCount = playerHand.cards.length;
-  let currentCardIndex = 0;
-  while (currentCardIndex < cardCount) {
-    if (
-      playerHand.cards[currentCardIndex].rankValueUsed >
-      dealerHand.cards[currentCardIndex].rankValueUsed
-    ) {
-      return {
-        winner: "Player",
-        winnerText: "Player wins with a high card",
-      };
-    }
-    if (
-      dealerHand.cards[currentCardIndex].rankValueUsed >
-      playerHand.cards[currentCardIndex].rankValueUsed
-    ) {
-      return {
-        winner: "Dealer",
-        winnerText: "Dealer wins with a high card",
-      };
-    }
-  }
+
   return {
     winner: null,
     winnerText: "Draw! Same hand value, number of cards, and card ranks!",
   };
+};
+
+const getHighestCardValue = (cards: CardValue[]) => {
+  return cards.sort((a, b) => b.rankValueUsed - a.rankValueUsed)[0];
+};
+
+const getHighCardWinner = (
+  playerCards: CardValue[],
+  dealerCards: CardValue[]
+): GameResult | null => {
+  const playerHighCard = getHighestCardValue(playerCards).rankValueUsed;
+  console.log("playerHighCard", playerHighCard);
+  const dealerHighCard = getHighestCardValue(dealerCards).rankValueUsed;
+  console.log("dealerHighCard", dealerHighCard);
+
+  const winner = getPlayerWithHighestValue(playerHighCard, dealerHighCard);
+  if (!winner) return null;
+
+  return {
+    winner,
+    winnerText: `${winner} wins with a high card`,
+  };
+};
+
+const getScoreWinner = (
+  playerScore: number,
+  dealerScore: number
+): GameResult | null => {
+  const winner = getPlayerWithHighestValue(playerScore, dealerScore);
+  if (!winner) return null;
+
+  return {
+    winner,
+    winnerText: `${winner} wins with a high score`,
+  };
+};
+
+const getCardCountWinner = (
+  playerCards: CardValue[],
+  dealerCards: CardValue[]
+) => {
+  const winner = getPlayerWithHighestValue(
+    playerCards.length,
+    dealerCards.length
+  );
+  if (!winner) return null;
+
+  return {
+    winner,
+    winnerText: `${winner} wins with the most cards`,
+  };
+};
+
+const getPlayerWithHighestValue = (
+  playerValue: number,
+  dealerValue: number
+): Participant | null => {
+  if (playerValue > dealerValue) return "Player";
+  if (dealerValue > playerValue) return "Dealer";
+  return null;
 };
