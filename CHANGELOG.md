@@ -1,3 +1,13 @@
+## [0.2.7](https://github.com/devklick/basic-blackjack/compare/v0.2.6...v0.2.7) (2023-06-27)
+
+
+### Bug Fixes
+
+* fix artifact names, checkout repo before publishing ([1eddeb8](https://github.com/devklick/basic-blackjack/commit/1eddeb8286f0e8a5d5b115bc0a03c07c0b455ac0))
+* fix artifact names, checkout repo before publishing ([3795fd7](https://github.com/devklick/basic-blackjack/commit/3795fd79cff913389bfe9fd3898c78254d1cb9de))
+* publish once in separate job ([5cf0c95](https://github.com/devklick/basic-blackjack/commit/5cf0c953ee3f52da37ad79fc107857d0e97f9e9d))
+* upload of windows build artifact ([5bb36cf](https://github.com/devklick/basic-blackjack/commit/5bb36cfe879150fbde7234f1c5e404b7d1ae96e5))
+
 ## [0.2.6](https://github.com/devklick/basic-blackjack/compare/v0.2.5...v0.2.6) (2023-06-26)
 
 
