@@ -39,7 +39,7 @@ This game is a React app packaged as a desktop app using Electron. To run the re
 
 ---
 ## Objective
-The idea is to end up with between 2 and 5 cards who's rank total 21 or less. The winner will be determined based on the hand rank, the numer of cards in the hand, and the highest card. See the [Ways to win](#WaysToWin) section.
+The idea is to end up with between 2 and 5 cards who's rank total 21 or less. The winner will be determined based on the hand rank, the numer of cards in the hand, and the highest card. See the [Ways to win](#ways-to-win) section.
 
 ---
 ## Overview
