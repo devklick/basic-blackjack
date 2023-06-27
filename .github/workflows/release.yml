@@ -51,16 +51,6 @@ jobs:
       - name: Publish Linux
         run: npm run electron:package:linux
 
-      # - name: Release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: npx semantic-release --branches master
-
-      - name: List contents
-        run: |
-          ls
-          ls dist
-
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -89,15 +79,6 @@ jobs:
 
       - name: Publish Windows
         run: npm run electron:package:win
-
-      # - name: Release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: npx semantic-release --branches master
-      - name: List contents
-        run: |
-          dir
-          dir dist
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
