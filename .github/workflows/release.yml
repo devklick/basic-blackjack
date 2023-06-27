@@ -103,7 +103,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: basic-blackjack_win_x64.exe
-          path: dist/basic-blackjack_*.exe
+          path: dist/Basic Blackjack Setup *.exe
 
   release:
     runs-on: ubuntu-latest
