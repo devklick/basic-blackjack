@@ -1,0 +1,57 @@
+@import "../../StyleConstants.scss";
+
+.GameSettings {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background-color: $TableClothLight;
+    color: $White;
+    padding: 0 12px 12px 12px;
+
+    .Title {
+        padding: 10px;
+        text-align: left;
+        width: auto;
+        background-color: $TableClothDark;
+        @include TableDarkRaisedSection;
+        align-self: center;
+        width: 100%;
+    }
+
+    .GameSetting {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .Info {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            .Header {
+                padding-bottom: 10px;
+            }
+
+            .Description {
+                font-size: 13px;
+            }
+        }
+
+        .ControlWrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+
+            .Control {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+            }
+            button {
+                background-color: gray;
+                color: $White;
+                border-radius: 8px;
+            }
+        }
+    }
+}

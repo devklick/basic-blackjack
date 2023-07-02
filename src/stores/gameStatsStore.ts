@@ -6,6 +6,7 @@ export interface GameStatsStoreState {
   playerWins: number;
   dealerWins: number;
   incrementWins: (participant: Participant) => void;
+  reset: () => void;
 }
 
 export const useGameStatsStore = create<GameStatsStoreState>()(
@@ -13,7 +14,7 @@ export const useGameStatsStore = create<GameStatsStoreState>()(
     (set, get) => ({
       dealerWins: 0,
       playerWins: 0,
-      incrementWins: (participant) => {
+      incrementWins(participant) {
         let dealerWins = get().dealerWins;
         let playerWins = get().playerWins;
         switch (participant) {
@@ -25,6 +26,9 @@ export const useGameStatsStore = create<GameStatsStoreState>()(
             break;
         }
         set({ dealerWins, playerWins });
+      },
+      reset() {
+        set({ dealerWins: 0, playerWins: 0 });
       },
     }),
     {

@@ -4,11 +4,11 @@ import InfoHud from "../InfoHud/InfoHud";
 import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
 import useGame from "./hooks/useGame";
 import { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
-
-import styles from "./Table.module.scss";
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
-const Table = () => {
+import styles from "./Table.module.scss";
+
+const Table = ({ hide = false }: { hide?: boolean }) => {
   const game = useGame();
   const { hitWarningsEnabled, stickWarningsEnabled } = useGameSettingsStore();
   const [showHitWarning, setShowHitWarning] = useState<boolean>(false);
@@ -93,7 +93,7 @@ const Table = () => {
   }
 
   return (
-    <div className={styles.Table}>
+    <div className={styles.Table} style={{ display: hide ? "none" : "" }}>
       {showHitWarning && getHitWarning()}
       {showStickWarning && getStickWarning()}
       <CardRow cardOwner={"Dealer"} cards={game.dealer.cards} />

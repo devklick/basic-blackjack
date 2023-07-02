@@ -43,7 +43,7 @@ const YesNoPopUp = ({
         <span>Don't warn me again</span>
         <input
           type="checkbox"
-          defaultChecked={disableFuture}
+          checked={disableFuture}
           onChange={(e) => setDisableFuture(!disableFuture)}
         />
       </div>
