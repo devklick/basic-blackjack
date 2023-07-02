@@ -1,6 +1,6 @@
-import Card from "../Card/Card";
-import { Participant } from "../Table/hooks/useGame";
-import { CardObject } from "../Card/card.types";
+import Card from "../Card";
+import { Participant } from "../Table";
+import { CardObject } from "../Card";
 
 import styles from "./CardRow.module.scss";
 

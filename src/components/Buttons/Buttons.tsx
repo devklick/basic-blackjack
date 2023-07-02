@@ -1,4 +1,4 @@
-import { GameState } from "../Table/hooks/useGame";
+import { GameState } from "../Table";
 
 import styles from "./Buttons.module.scss";
 

@@ -3,8 +3,8 @@ import {
   CardRankMetadataMap,
   CardRanks,
   CardSuits,
-} from "../components/Card/card.types";
-import { Participant } from "../components/Table/hooks/useGame";
+} from "../components/Card";
+import { Participant } from "../components/Table";
 import { randomIntInRange } from "./randomUtilities";
 
 export type DeckType = "Standard";

@@ -1,7 +1,7 @@
-import { Participant } from "../../Table/hooks/useGame";
+import { Participant } from "../../Table";
 import { useGameStatsStore } from "../../../stores/gameStatsStore";
 
-function useGameStats() {
+export function useGameStats() {
   const statsStore = useGameStatsStore();
 
   /**
@@ -25,5 +25,3 @@ function useGameStats() {
     updateWinnerStats,
   };
 }
-
-export default useGameStats;

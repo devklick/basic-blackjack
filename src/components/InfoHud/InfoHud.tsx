@@ -1,6 +1,6 @@
-import { GameState } from "../Table/hooks/useGame";
-import ScoreBoard, { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
-import Buttons from "../Buttons/Buttons";
+import { GameState } from "../Table";
+import ScoreBoard, { ScoreBoardRow } from "../ScoreBoard";
+import Buttons from "../Buttons";
 import styles from "./InfoHud.module.scss";
 
 export interface InfoHudProps {

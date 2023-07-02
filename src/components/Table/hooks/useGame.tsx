@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import useGameStats from "../../InfoHud/hooks/useGameStats";
+import { useGameStats } from "../../InfoHud";
 import { determineWinner } from "../../../utilities/deckUtilities";
-import useDeck from "../../Card/hooks/useDeck";
-import useCardPile from "../../Card/hooks/useCardPile";
-import { Facing } from "../../Card/card.types";
+import { Facing, useCardPile, useDeck } from "../../Card";
 
 export type GameState =
   | "WaitingForStart"
@@ -16,7 +14,7 @@ export type GameState =
 
 export type Participant = "Player" | "Dealer";
 
-function useGame() {
+export function useGame() {
   const [state, setState] = useState<GameState>("WaitingForStart");
   const [outcome, setOutcome] = useState<string | null>(null);
 
@@ -231,5 +229,3 @@ function useGame() {
     dealCardsToParticipant,
   };
 }
-
-export default useGame;

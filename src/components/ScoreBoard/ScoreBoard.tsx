@@ -1,4 +1,4 @@
-import { Participant } from "../Table/hooks/useGame";
+import { Participant } from "../Table";
 
 import styles from "./ScoreBoard.module.scss";
 

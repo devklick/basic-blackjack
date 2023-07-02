@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Participant } from "../components/Table/hooks/useGame";
+import { Participant } from "../components/Table";
 
 export interface GameStatsStoreState {
   playerWins: number;

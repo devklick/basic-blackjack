@@ -1,6 +1,6 @@
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 import { useGameStatsStore } from "../../stores/gameStatsStore";
-import CheckBox from "../CheckBox/CheckBox";
+import CheckBox from "../CheckBox";
 
 import styles from "./GameSettings.module.scss";
 

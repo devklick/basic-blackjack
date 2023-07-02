@@ -6,7 +6,7 @@ interface UseDeckProps {
   deckType: DeckType;
 }
 
-function useDeck({ deckType }: UseDeckProps = { deckType: "Standard" }) {
+export function useDeck({ deckType }: UseDeckProps = { deckType: "Standard" }) {
   const deck = useRef(generateDeck(deckType));
 
   /**
@@ -31,5 +31,3 @@ function useDeck({ deckType }: UseDeckProps = { deckType: "Standard" }) {
 
   return { take, init };
 }
-
-export default useDeck;

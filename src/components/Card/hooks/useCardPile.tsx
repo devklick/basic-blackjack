@@ -7,7 +7,7 @@ const defaultBestHand: BestHand = { cards: [], score: 0 };
  * A hook that represents a pile of cards and encapsulates
  * the various actions that need to be performed on the pile of cards.
  */
-function useCardPile() {
+export function useCardPile() {
   const [cards, setCardsState] = useState<CardObject[]>([]);
   const bestHand = useRef<BestHand>(defaultBestHand);
   const bust = useRef<boolean>(false);
@@ -91,5 +91,3 @@ function useCardPile() {
     setCardsFacing,
   };
 }
-
-export default useCardPile;

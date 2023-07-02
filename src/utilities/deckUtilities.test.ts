@@ -1,4 +1,4 @@
-import { CardRankMetadataMap } from "../components/Card/card.types";
+import { CardRankMetadataMap } from "../components/Card";
 import { determineWinner, BestHand } from "./deckUtilities";
 describe("deckUtilities", () => {
   describe("determineWinner", () => {

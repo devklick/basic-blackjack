@@ -1,9 +1,9 @@
 import { useState } from "react";
-import CardRow from "../CardRow/CardRow";
-import InfoHud from "../InfoHud/InfoHud";
-import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
-import useGame from "./hooks/useGame";
-import { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
+import CardRow from "../CardRow";
+import InfoHud from "../InfoHud";
+import YesNoPopUp from "../YesNoPopUp";
+import { useGame } from ".";
+import { ScoreBoardRow } from "../ScoreBoard";
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
 import styles from "./Table.module.scss";
