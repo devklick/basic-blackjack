@@ -1,23 +1,54 @@
-import styles from './YesNoPopUp.module.scss';
+import { useState } from "react";
+import {
+  WarningType,
+  useGameSettingsStore,
+} from "../../stores/gameSettingsStore";
+import styles from "./YesNoPopUp.module.scss";
 
 export interface YesNoPopUpProps {
-  message: string;
+  type: WarningType;
+  message?: string;
   onClickYes: () => void;
   onClickNo: () => void;
 }
 
-const YesNoPopUp = (props: YesNoPopUpProps) => {
+const YesNoPopUp = ({
+  onClickNo,
+  onClickYes,
+  message = "Are you sure?",
+  type,
+}: YesNoPopUpProps) => {
+  const { setWarningEnabled } = useGameSettingsStore();
+  const [disableFuture, setDisableFuture] = useState<boolean>(false);
+
+  function onClick(ignore: boolean) {
+    if (disableFuture) setWarningEnabled(type, false);
+
+    if (ignore) onClickYes();
+    else onClickNo();
+  }
+
   return (
     <div className={styles.YesNoPopUp}>
       <div className={styles.Content}>
-        <span>{props.message}</span>
+        <span>{message}</span>
         <div className={styles.ButtonContainer}>
-          <button className={styles.Yes} onClick={props.onClickYes}>Yes</button>
-          <button className={styles.No} onClick={props.onClickNo}>No</button>
+          <button className={styles.Yes} onClick={() => onClick(true)}>
+            Yes
+          </button>
+          <button className={styles.No} onClick={() => onClick(false)}>
+            No
+          </button>
         </div>
+        <span>Don't warn me again</span>
+        <input
+          type="checkbox"
+          checked={disableFuture}
+          onChange={(e) => setDisableFuture(!disableFuture)}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default YesNoPopUp;

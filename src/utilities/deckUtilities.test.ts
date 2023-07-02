@@ -1,4 +1,4 @@
-import { CardRankMetadataMap } from "../components/Card/Card";
+import { CardRankMetadataMap } from "../components/Card";
 import { determineWinner, BestHand } from "./deckUtilities";
 describe("deckUtilities", () => {
   describe("determineWinner", () => {
@@ -59,6 +59,7 @@ describe("deckUtilities", () => {
         expect(result.winner).toBe("Dealer");
         expect(result.winnerText).toBe("Dealer wins with the most cards");
       });
+
       it("Should return Player when player has more cards than player", () => {
         playerHand.cards.push({
           card: { facing: "Up", rank: "Eight", suit: "Diamond" },
@@ -89,6 +90,7 @@ describe("deckUtilities", () => {
         expect(result.winner).toBe("Dealer");
         expect(result.winnerText).toBe("Dealer wins with a high card");
       });
+
       it("Should return Player when player has more cards than player", () => {
         dealerHand.cards.push({
           card: { facing: "Up", rank: "Seven", suit: "Diamond" },

@@ -5,6 +5,12 @@
   font-family: "Oxygen", sans-serif;
 }
 
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .App {
   display: flex;
   align-items: center;
@@ -12,4 +18,17 @@
 }
 .Content {
   @include AppDimensions;
+  position: relative;
+  overflow: hidden;
+}
+
+.ToggleSettings {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  margin: 7px;
+  height: 30px !important;
+  width: 30px !important;
+  font-size: 20px !important;
 }

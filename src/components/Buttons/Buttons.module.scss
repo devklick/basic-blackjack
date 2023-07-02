@@ -1,0 +1,19 @@
+@import "../../StyleConstants.scss";
+
+.ButtonContainer {
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    button {
+        width: 100px;
+        height: 50px;
+        background-color: gray;
+        color: $White;
+        border-radius: 8px;
+    }
+}

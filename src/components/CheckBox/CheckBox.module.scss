@@ -1,0 +1,21 @@
+@import "../../StyleConstants.scss";
+
+.CheckBox {
+    width: 42px;
+    height: 42px;
+    border-radius: 5px;
+    font-size: 30px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $White;
+}
+.Checked {
+    background-color: $TableClothHighlight;
+    box-shadow: inset 5px 5px 12px -1px $TableClothShadow;
+}
+.Unchecked {
+    background-color: $TableClothLight;
+    box-shadow: 5px 5px 11px 0px $TableClothShadow;
+}
