@@ -1,9 +1,8 @@
 import { Participant } from "../../Table/hooks/useGame";
-import useParticipantStats from "./useParticipantStats";
+import { useGameStatsStore } from "../stores/gameStatsStore";
 
 function useGameStats() {
-  const playerStats = useParticipantStats();
-  const dealerStats = useParticipantStats();
+  const statsStore = useGameStatsStore();
 
   /**
    * Updates the specified participants stats,
@@ -11,25 +10,18 @@ function useGameStats() {
    * @param winner The winning participant
    */
   function updateWinnerStats(winner: Participant) {
-    switch (winner) {
-      case "Dealer":
-        dealerStats.incrementWins();
-        break;
-      case "Player":
-        playerStats.incrementWins();
-        break;
-    }
+    statsStore.incrementWins(winner);
   }
 
   return {
     /**
      * The number of games the player has won during this session
      */
-    playerWins: playerStats.wins,
+    playerWins: statsStore.playerWins,
     /**
      * The number of games the dealer has won during this session.
      */
-    dealerWins: dealerStats.wins,
+    dealerWins: statsStore.dealerWins,
     updateWinnerStats,
   };
 }
