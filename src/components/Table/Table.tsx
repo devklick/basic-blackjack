@@ -5,6 +5,7 @@ import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
 import useGame from "./hooks/useGame";
 
 import styles from "./Table.module.scss";
+import { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
 
 const Table = () => {
   const game = useGame();
@@ -38,50 +39,62 @@ const Table = () => {
     game.startDealerRound();
   };
 
+  function getHitWarning() {
+    return (
+      <YesNoPopUp
+        onClickNo={() => setShowHitWarning(false)}
+        onClickYes={() => {
+          setShowHitWarning(false);
+          onHitClicked(true);
+        }}
+      />
+    );
+  }
+
+  function getStickWarning() {
+    return (
+      <YesNoPopUp
+        onClickNo={() => setShowStickWarning(false)}
+        onClickYes={() => {
+          setShowStickWarning(false);
+          onStickClicked(true);
+        }}
+      />
+    );
+  }
+
+  function getScoreBoardRows(): ScoreBoardRow[] {
+    return [
+      {
+        participant: "Dealer",
+        score: game.getParticipantScore("Dealer"),
+        displayScore: game.dealer.allCardsVisible,
+        totalWins: game.stats.dealerWins,
+      },
+      {
+        participant: "Player",
+        score: game.getParticipantScore("Player"),
+        displayScore: true,
+        totalWins: game.stats.playerWins,
+      },
+    ];
+  }
+
   return (
     <div className={styles.Table}>
-      {showHitWarning && (
-        <YesNoPopUp
-          onClickYes={() => {
-            setShowHitWarning(false);
-            onHitClicked(true);
-          }}
-          onClickNo={() => setShowHitWarning(false)}
-        />
-      )}
-      {showStickWarning && (
-        <YesNoPopUp
-          onClickYes={() => {
-            setShowStickWarning(false);
-            onStickClicked(true);
-          }}
-          onClickNo={() => setShowStickWarning(false)}
-        />
-      )}
+      {showHitWarning && getHitWarning()}
+      {showStickWarning && getStickWarning()}
       <CardRow cardOwner={"Dealer"} cards={game.dealer.cards} />
       <CardRow cardOwner={"Player"} cards={game.player.cards} />
       <InfoHud
         gameState={game.state}
         outcome={game.outcome}
+        scoreBoardRows={getScoreBoardRows()}
         clickHandlers={{
           onDealClicked,
           onHitClicked,
           onStickClicked,
         }}
-        scoreBoardRows={[
-          {
-            participant: "Dealer",
-            score: game.getParticipantScore("Dealer"),
-            displayScore: game.dealer.allCardsVisible,
-            totalWins: game.stats.dealerWins,
-          },
-          {
-            participant: "Player",
-            score: game.getParticipantScore("Player"),
-            displayScore: true,
-            totalWins: game.stats.playerWins,
-          },
-        ]}
       />
     </div>
   );
