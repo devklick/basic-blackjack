@@ -13,7 +13,7 @@ export interface ButtonsProps {
 
 function PrePlayButtons({ onDealClicked }: { onDealClicked: () => void }) {
   return (
-    <button key={"start"} onClick={onDealClicked}>
+    <button key={"start"} onClick={() => onDealClicked()}>
       Deal
     </button>
   );
@@ -28,10 +28,10 @@ function InPlayButtons({
 }) {
   return (
     <>
-      <button key="hit" onClick={onHitClicked}>
+      <button key="hit" onClick={() => onHitClicked()}>
         Hit
       </button>
-      <button key="stick" onClick={onStickClicked}>
+      <button key="stick" onClick={() => onStickClicked()}>
         Stick
       </button>
     </>
