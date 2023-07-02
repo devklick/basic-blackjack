@@ -3,12 +3,14 @@ import CardRow from "../CardRow/CardRow";
 import InfoHud from "../InfoHud/InfoHud";
 import YesNoPopUp from "../YesNoPopUp/YesNoPopUp";
 import useGame from "./hooks/useGame";
+import { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
 
 import styles from "./Table.module.scss";
-import { ScoreBoardRow } from "../ScoreBoard/ScoreBoard";
+import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
 const Table = () => {
   const game = useGame();
+  const { hitWarningsEnabled, stickWarningsEnabled } = useGameSettingsStore();
   const [showHitWarning, setShowHitWarning] = useState<boolean>(false);
   const [showStickWarning, setShowStickWarning] = useState<boolean>(false);
 
@@ -20,7 +22,11 @@ const Table = () => {
   const onHitClicked = (overrideWarning: boolean = false) => {
     if (game.state !== "PlayerRound") return;
 
-    if (game.getParticipantScore("Player") >= 18 && !overrideWarning) {
+    if (
+      hitWarningsEnabled &&
+      game.getParticipantScore("Player") >= 18 &&
+      !overrideWarning
+    ) {
       setShowHitWarning(true);
       return;
     }
@@ -31,7 +37,11 @@ const Table = () => {
   const onStickClicked = (overrideWarning: boolean = false) => {
     if (game.state !== "PlayerRound") return;
 
-    if (game.getParticipantScore("Player") <= 10 && !overrideWarning) {
+    if (
+      stickWarningsEnabled &&
+      game.getParticipantScore("Player") <= 10 &&
+      !overrideWarning
+    ) {
       setShowStickWarning(true);
       return;
     }
@@ -42,6 +52,7 @@ const Table = () => {
   function getHitWarning() {
     return (
       <YesNoPopUp
+        type="hit-on-high"
         onClickNo={() => setShowHitWarning(false)}
         onClickYes={() => {
           setShowHitWarning(false);
@@ -54,6 +65,7 @@ const Table = () => {
   function getStickWarning() {
     return (
       <YesNoPopUp
+        type="stick-on-low"
         onClickNo={() => setShowStickWarning(false)}
         onClickYes={() => {
           setShowStickWarning(false);

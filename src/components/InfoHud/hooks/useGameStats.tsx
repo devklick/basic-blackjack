@@ -1,5 +1,5 @@
 import { Participant } from "../../Table/hooks/useGame";
-import { useGameStatsStore } from "../stores/gameStatsStore";
+import { useGameStatsStore } from "../../../stores/gameStatsStore";
 
 function useGameStats() {
   const statsStore = useGameStatsStore();
