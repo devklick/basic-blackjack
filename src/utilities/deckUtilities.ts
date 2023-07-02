@@ -3,8 +3,8 @@ import {
   CardRankMetadataMap,
   CardRanks,
   CardSuits,
-} from "../components/Card/Card";
-import { Participant } from "../components/Table/Table";
+} from "../components/Card/card.types";
+import { Participant } from "../components/Table/hooks/useGame";
 import { randomIntInRange } from "./randomUtilities";
 
 export type DeckType = "Standard";
@@ -70,8 +70,8 @@ export const generateDeck = (
   if (deckType !== "Standard") {
     throw new Error(`DeckType ${deckType} not yet supported.`);
   }
-  const cardIndexes = [...Array(52).keys()]; // 0-51
-  const cards: CardObject[] = [];
+  const deckIndexes = [...Array(52).keys()]; // 0-51
+  const deck: CardObject[] = [];
 
   Object.values(CardRanks).forEach((rank) => {
     Object.values(CardSuits).forEach((suit) => {
@@ -80,19 +80,21 @@ export const generateDeck = (
       // If the deck is to be shuffled, lets create it with cards
       // in a random order to get a head start. Select a random index
       // where the card should be inserted into the deck.
-      const index = shuffle
-        ? cardIndexes[randomIntInRange(0, cardIndexes.length - 1)]
-        : cards.length;
+      const positionInDeck = shuffle
+        ? deckIndexes[randomIntInRange(0, deckIndexes.length - 1)]
+        : deck.length;
 
       // Insert the card into the deck
-      cards[index] = card;
+      deck[positionInDeck] = card;
 
-      const indexOfIndex = cardIndexes.indexOf(index);
-      cardIndexes.splice(indexOfIndex, 1);
+      // Since we've used this index up, we cant add another card
+      // at the same index, so we need to remove it from the list
+      const remove = deckIndexes.indexOf(positionInDeck);
+      deckIndexes.splice(remove, 1);
     });
   });
 
-  return shuffle ? shuffleDeck(cards) : cards;
+  return shuffle ? shuffleDeck(deck) : deck;
 };
 
 export interface CardValue {
