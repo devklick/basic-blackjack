@@ -1,3 +1,17 @@
+## [0.2.9](https://github.com/devklick/basic-blackjack/compare/v0.2.8...v0.2.9) (2023-06-27)
+
+
+### Bug Fixes
+
+* dont show dev tools in prod build ([8a3a018](https://github.com/devklick/basic-blackjack/commit/8a3a01853890ebf2f5242551a8584757ccbf2957))
+
+## [0.2.8](https://github.com/devklick/basic-blackjack/compare/v0.2.7...v0.2.8) (2023-06-27)
+
+
+### Bug Fixes
+
+* incorrect logic when checking high card ([5b3bdc3](https://github.com/devklick/basic-blackjack/commit/5b3bdc391c4acd0fdfc277d3250c609f6b9152bc)), closes [#5](https://github.com/devklick/basic-blackjack/issues/5) [#7](https://github.com/devklick/basic-blackjack/issues/7)
+
 ## [0.2.7](https://github.com/devklick/basic-blackjack/compare/v0.2.6...v0.2.7) (2023-06-27)
 
 
