@@ -1,6 +1,6 @@
 {
   "name": "basic-blackjack",
-  "version": "1.0.0",
+  "version": "0.2.10",
   "private": true,
   "main": "./public/electron.js",
   "author": "devklick <devklick@gmail.com>",

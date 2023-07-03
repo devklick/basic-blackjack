@@ -1,3 +1,11 @@
+## [0.2.10](https://github.com/devklick/basic-blackjack/compare/v0.2.9...v0.2.10) (2023-07-03)
+
+
+### Bug Fixes
+
+* Add zustand to persist stats ([6bb8df3](https://github.com/devklick/basic-blackjack/commit/6bb8df3d7dd3e10b5b1a88d4cd9b50e013e63bae)), closes [#9](https://github.com/devklick/basic-blackjack/issues/9)
+* warning popups ([a9c6f31](https://github.com/devklick/basic-blackjack/commit/a9c6f3184862d291792f8fb3adde4418590b44e4)), closes [#9](https://github.com/devklick/basic-blackjack/issues/9)
+
 ## [0.2.9](https://github.com/devklick/basic-blackjack/compare/v0.2.8...v0.2.9) (2023-06-27)
 
 
