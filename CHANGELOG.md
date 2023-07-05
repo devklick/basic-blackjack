@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/devklick/basic-blackjack/compare/v0.2.10...v0.3.0) (2023-07-05)
+
+
+### Features
+
+* responsive layout ([587d4ed](https://github.com/devklick/basic-blackjack/commit/587d4edd4058189e52401863d2c9335e785c2d56))
+
 ## [0.2.10](https://github.com/devklick/basic-blackjack/compare/v0.2.9...v0.2.10) (2023-07-03)
 
 
