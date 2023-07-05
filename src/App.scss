@@ -15,20 +15,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100dvh;
+  aspect-ratio: 1/2;
+  @media only screen and (max-width: 600px) {
+    height: 100dvh;
+    width: 100dvw;
+    aspect-ratio: auto;
+  }
 }
 .Content {
-  @include AppDimensions;
+  height: 100%;
+  width: 100%;
   position: relative;
-  overflow: hidden;
+  background-color: red;
 }
 
 .ToggleSettings {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  margin: 7px;
-  height: 30px !important;
-  width: 30px !important;
+  height: 50px !important;
+  width: 50px !important;
   font-size: 20px !important;
 }

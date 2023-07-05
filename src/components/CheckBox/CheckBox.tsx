@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./CheckBox.module.scss";
 
 export interface CheckBoxProps {
@@ -6,12 +5,26 @@ export interface CheckBoxProps {
   onChanged: (checked: boolean) => void;
   className?: string;
   symbol?: string;
+  checkedSymbol?: string;
+  uncheckedSymbol?: string;
 }
 
-const tick = "✔";
-const cross = "✕";
+export const tick = "✔";
+export const cross = "✕";
 
-function CheckBox({ checked, onChanged, className, symbol }: CheckBoxProps) {
+function CheckBox({
+  checked,
+  onChanged,
+  className,
+  symbol,
+  checkedSymbol,
+  uncheckedSymbol,
+}: CheckBoxProps) {
+  function getSymbol() {
+    if (symbol !== undefined) return symbol;
+    if (checked) return checkedSymbol ?? tick;
+    return uncheckedSymbol ?? cross;
+  }
   return (
     <div
       className={[
@@ -21,7 +34,7 @@ function CheckBox({ checked, onChanged, className, symbol }: CheckBoxProps) {
       ].join(" ")}
       onClick={() => onChanged(!checked)}
     >
-      <div>{symbol ?? (checked ? tick : cross)}</div>
+      <div>{getSymbol()}</div>
     </div>
   );
 }

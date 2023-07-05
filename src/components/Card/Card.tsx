@@ -21,8 +21,10 @@ function Card({ rank, suit, facing }: CardProps) {
   }
 
   return (
-    <div className={styles.Card} style={{ backgroundColor: color }}>
-      {content}
+    <div className={styles.CardWrapper}>
+      <div className={styles.Card} style={{ backgroundColor: color }}>
+        <div className={styles.CardContent}>{content}</div>
+      </div>
     </div>
   );
 }

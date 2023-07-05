@@ -2,9 +2,10 @@
 
 .Table {
     background-color: $TableClothLight;
-    min-width: 370px;
     color: white;
     height: 100%;
     overflow: hidden;
     position: relative;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
 }

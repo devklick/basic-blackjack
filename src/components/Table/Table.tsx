@@ -7,12 +7,14 @@ import { ScoreBoardRow } from "../ScoreBoard";
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
 import styles from "./Table.module.scss";
+import CheckBox from "../CheckBox";
 
 const Table = ({ hide = false }: { hide?: boolean }) => {
   const game = useGame();
   const { hitWarningsEnabled, stickWarningsEnabled } = useGameSettingsStore();
   const [showHitWarning, setShowHitWarning] = useState<boolean>(false);
   const [showStickWarning, setShowStickWarning] = useState<boolean>(false);
+  const { settingsModalOpen, setSettingsModelOpen } = useGameSettingsStore();
 
   const onDealClicked = (): void => {
     if (game.state !== "WaitingForStart" && game.state !== "GameOver") return;
@@ -96,7 +98,14 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
     <div className={styles.Table} style={{ display: hide ? "none" : "" }}>
       {showHitWarning && getHitWarning()}
       {showStickWarning && getStickWarning()}
-      <CardRow cardOwner={"Dealer"} cards={game.dealer.cards} />
+      <CardRow cardOwner={"Dealer"} cards={game.dealer.cards}>
+        <CheckBox
+          className="ToggleSettings"
+          checked={settingsModalOpen}
+          onChanged={(open) => setSettingsModelOpen(open)}
+          symbol="☰"
+        />
+      </CardRow>
       <CardRow cardOwner={"Player"} cards={game.player.cards} />
       <InfoHud
         gameState={game.state}
