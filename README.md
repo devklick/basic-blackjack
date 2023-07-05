@@ -94,7 +94,7 @@ The total wins are also tracked, so you will see how many times the dealer has w
 ---
 
 ## Possible Future Enhancements
-- [x] Improve card dealing animation (delay between each card being dealt)
+- [x] Improve card dealing animation (delay between each card being dealt).
 - [x] Have an option to disable popups entirely.
 - [x] Store total wins (history) in cache so it's preserved between refreshes.
 - [ ] Introduce betting.
