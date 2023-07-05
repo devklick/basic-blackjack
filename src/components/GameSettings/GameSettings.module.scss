@@ -1,32 +1,45 @@
 @import "../../StyleConstants.scss";
 
 .GameSettings {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+    display: grid;
+    // This template matches the table template,
+    // in order to make sure the top bar (which in this case
+    // says "Game Settings", but on the table shows "Dealer Cards")
+    // has a consistent hight when switching to/from settings screen.
+    grid-template-rows: 1fr 8fr;
+
     background-color: $TableClothLight;
     color: $White;
-    padding: 0 12px 12px 12px;
+    height: 100%;
 
     .Title {
         padding: 10px;
         text-align: left;
-        width: auto;
-        background-color: $TableClothDark;
-        @include TableDarkRaisedSection;
-        align-self: center;
-        width: 100%;
-    }
-
-    .GameSetting {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
+        background-color: $TableClothDark;
+        @include TableDarkRaisedSection;
+    }
+    .Content {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 40px;
+    }
+
+    .GameSetting {
+        gap: 10px;
+
+        display: grid;
+        grid-template-columns: auto 50px;
+
+        width: 100%;
 
         .Info {
             display: flex;
             flex-direction: column;
-            width: 400px;
             .Header {
                 padding-bottom: 10px;
             }
@@ -43,8 +56,8 @@
             width: 50px;
 
             .Control {
-                width: 100%;
                 height: auto;
+                width: 100%;
                 aspect-ratio: 1 / 1;
             }
             button {

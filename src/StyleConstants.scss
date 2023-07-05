@@ -17,8 +17,3 @@ $TableClothShadow: #164624;
     border-right: $TableClothShadow 2px solid;
     border-bottom: $TableClothShadow 2px solid;
 }
-
-@mixin AppDimensions {
-    height: 563px;
-    width: 460px;
-}

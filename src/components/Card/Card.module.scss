@@ -1,18 +1,37 @@
 @import "../../StyleConstants.scss";
 
+.CardWrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    // 20% of the table width.
+    // The subtraction of 12px comes from the cards having a 10px gap, and there being 5 of them.
+    // subtract (10px + 10px / 5 cards)
+    width: calc(20% - 12px);
+}
 .Card {
-    width: 80px;
-    height: 100px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;
+    width: 100%;
+    height: 80%;
     border-radius: 5%;
     box-shadow: $TableClothShadow 2px 2px 8px 3px;
     animation: slide-from-right 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    container-type: inline-size;
 }
+.CardContent {
+    text-align: center;
+    overflow-wrap: break-word;
+    width: 100%;
+    font-size: 40cqw;
+    width: 80%;
 
+    @media only screen and (max-width: 500px) {
+        container-type: normal;
+        font-size: 24px;
+    }
+}
 @keyframes slide-from-right {
     0% {
         transform: translateX(calc(100vw / 2));
