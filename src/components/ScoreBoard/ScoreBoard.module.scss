@@ -15,7 +15,12 @@
         table,
         td,
         th {
+            font-weight: normal;
             padding: 5px;
+
+            @media only screen and (max-height: 640px) {
+                font-size: 12px;
+            }
         }
     }
 }
