@@ -1,0 +1,21 @@
+@import "../../StyleConstants.scss";
+
+.SettingsButton {
+    height: min(100%, 50px);
+    width: auto;
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $White;
+}
+.Open {
+    background-color: $TableClothHighlight;
+    box-shadow: inset 5px 5px 12px -1px $TableClothShadow;
+}
+.Closed {
+    background-color: $TableClothLight;
+    box-shadow: 5px 5px 11px 0px $TableClothShadow;
+}

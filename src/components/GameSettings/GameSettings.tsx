@@ -1,6 +1,7 @@
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 import { useGameStatsStore } from "../../stores/gameStatsStore";
 import CheckBox from "../CheckBox";
+import SettingsButton from "../SettingsButton";
 
 import styles from "./GameSettings.module.scss";
 
@@ -12,12 +13,7 @@ function GameSettings() {
     <div className={styles.GameSettings}>
       <div className={styles.Title}>
         <span>Game Settings</span>
-        <CheckBox
-          className="ToggleSettings"
-          checked={gameSettings.settingsModalOpen}
-          onChanged={(open) => gameSettings.setSettingsModelOpen(open)}
-          symbol="☰"
-        />
+        <SettingsButton />
       </div>
       <div className={styles.Content}>
         <div className={styles.GameSetting}>
