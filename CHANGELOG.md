@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/devklick/basic-blackjack/compare/v0.3.0...v0.3.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* Responsive info hud and play buttons ([07d65c8](https://github.com/devklick/basic-blackjack/commit/07d65c86f68132232094c3f98cf3c46b54f6d42e)), closes [#16](https://github.com/devklick/basic-blackjack/issues/16)
+* Responsive settings button ([9cec13b](https://github.com/devklick/basic-blackjack/commit/9cec13b4079253383e2d0298042de1c4d780ecb6)), closes [#16](https://github.com/devklick/basic-blackjack/issues/16)
+
 # [0.3.0](https://github.com/devklick/basic-blackjack/compare/v0.2.10...v0.3.0) (2023-07-05)
 
 
