@@ -17,6 +17,8 @@
   justify-content: center;
   height: 100dvh;
   aspect-ratio: 1/2;
+  min-width: 220px;
+  min-height: 430px;
   @media only screen and (max-width: 600px) {
     height: 100dvh;
     width: 100dvw;

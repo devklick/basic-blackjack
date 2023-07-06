@@ -8,10 +8,18 @@
     align-items: center;
 
     .Outcome {
-        font-size: 26px;
+        font-size: 22px;
+        font-weight: bold;
         height: 34px;
         padding: 10px;
         padding-bottom: 0;
         text-align: center;
+
+        @media only screen and (max-height: 640px) {
+            height: unset;
+            container-type: normal;
+            font-size: 16px;
+            font-weight: normal;
+        }
     }
 }

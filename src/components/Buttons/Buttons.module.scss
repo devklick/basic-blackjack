@@ -12,8 +12,39 @@
     button {
         width: 100px;
         height: 50px;
-        background-color: gray;
-        color: $White;
         border-radius: 8px;
+        background-color: #808080;
+        color: #fff;
+
+        // Make the buttons transparent to prevent blocking view of the info hud on small screens
+        @media only screen and (max-height: 580px) {
+            background-color: rgba($color: #808080, $alpha: 0.2);
+            color: rgba($color: #fff, $alpha: 0.2);
+            border-top-color: rgba($color: #e3e3e3, $alpha: 0.2);
+            border-left-color: rgba($color: #e3e3e3, $alpha: 0.2);
+            border-bottom-color: rgba($color: #808080, $alpha: 0.2);
+            border-right-color: rgba($color: #808080, $alpha: 0.2);
+
+            &:hover {
+                background-color: rgba($color: #808080, $alpha: 1);
+                color: rgba($color: #fff, $alpha: 1);
+                border-top-color: rgba($color: #e3e3e3, $alpha: 1);
+                border-left-color: rgba($color: #e3e3e3, $alpha: 1);
+                border-bottom-color: rgba($color: #808080, $alpha: 1);
+                border-right-color: rgba($color: #808080, $alpha: 1);
+            }
+
+            &:active {
+                background-color: rgba($color: #808080, $alpha: 1);
+                color: rgba($color: #fff, $alpha: 1);
+                border-bottom-color: rgba($color: #e3e3e3, $alpha: 1);
+                border-right-color: rgba($color: #e3e3e3, $alpha: 1);
+                border-top-color: rgba($color: #808080, $alpha: 1);
+                border-left-color: rgba($color: #808080, $alpha: 1);
+            }
+        }
     }
 }
+
+// Light edge: #e3e3e3 (left, top when unclicked, right, bottom when clicked)
+// Dark edge: #808080 (right, bottom when unklicked, left, top when clicked)

@@ -19,7 +19,7 @@ function CurrentHandScores({ scoreBoardRows }: ScoreBoardProps) {
       <thead>
         <tr>
           <th>Participant</th>
-          <th>Hand Score</th>
+          <th>Score</th>
         </tr>
       </thead>
       <tbody>
@@ -41,7 +41,7 @@ function TotalWins({ scoreBoardRows }: ScoreBoardProps) {
     <table className={styles.ScoreTable}>
       <thead>
         <tr>
-          <th>Total Wins</th>
+          <th>Wins</th>
         </tr>
       </thead>
       <tbody>
