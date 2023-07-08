@@ -10,7 +10,7 @@ describe("deckUtilities", () => {
         cards: [
           {
             card: { facing: "Up", rank: "Ace", suit: "Club" },
-            rankRelativeValueUsed: Math.min(
+            rankGlobalValueUsed: Math.min(
               ...CardRankMetadataMap["Ace"].relativeValues
             ),
             rankValueUsed: Math.min(...CardRankMetadataMap["Ace"].values),
@@ -22,7 +22,7 @@ describe("deckUtilities", () => {
         cards: [
           {
             card: { facing: "Up", rank: "Ace", suit: "Diamond" },
-            rankRelativeValueUsed: Math.min(
+            rankGlobalValueUsed: Math.min(
               ...CardRankMetadataMap["Ace"].relativeValues
             ),
             rankValueUsed: Math.min(...CardRankMetadataMap["Ace"].values),
@@ -51,7 +51,7 @@ describe("deckUtilities", () => {
       it("Should return Dealer when dealer has more cards than player", () => {
         dealerHand.cards.push({
           card: { facing: "Up", rank: "Eight", suit: "Diamond" },
-          rankRelativeValueUsed: 8,
+          rankGlobalValueUsed: 8,
           rankValueUsed: 8,
         });
         dealerHand.score = playerHand.score;
@@ -63,7 +63,7 @@ describe("deckUtilities", () => {
       it("Should return Player when player has more cards than player", () => {
         playerHand.cards.push({
           card: { facing: "Up", rank: "Eight", suit: "Diamond" },
-          rankRelativeValueUsed: 8,
+          rankGlobalValueUsed: 8,
           rankValueUsed: 8,
         });
         playerHand.score = dealerHand.score;
@@ -77,12 +77,12 @@ describe("deckUtilities", () => {
       it("Should return Dealer when dealers high card is greater than players", () => {
         dealerHand.cards.push({
           card: { facing: "Up", rank: "Eight", suit: "Diamond" },
-          rankRelativeValueUsed: 8,
+          rankGlobalValueUsed: 8,
           rankValueUsed: 8,
         });
         playerHand.cards.push({
           card: { facing: "Up", rank: "Seven", suit: "Diamond" },
-          rankRelativeValueUsed: 7,
+          rankGlobalValueUsed: 7,
           rankValueUsed: 7,
         });
         dealerHand.score = playerHand.score;
@@ -94,12 +94,12 @@ describe("deckUtilities", () => {
       it("Should return Player when player has more cards than player", () => {
         dealerHand.cards.push({
           card: { facing: "Up", rank: "Seven", suit: "Diamond" },
-          rankRelativeValueUsed: 7,
+          rankGlobalValueUsed: 7,
           rankValueUsed: 7,
         });
         playerHand.cards.push({
           card: { facing: "Up", rank: "Eight", suit: "Diamond" },
-          rankRelativeValueUsed: 8,
+          rankGlobalValueUsed: 8,
           rankValueUsed: 8,
         });
         playerHand.score = dealerHand.score;

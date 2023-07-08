@@ -2,12 +2,13 @@ import { useState } from "react";
 import CardRow from "../CardRow";
 import InfoHud from "../InfoHud";
 import YesNoPopUp from "../YesNoPopUp";
-import { useGame } from ".";
+import { Participant, useGame } from ".";
 import { ScoreBoardRow } from "../ScoreBoard";
 import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 
 import styles from "./Table.module.scss";
 import SettingsButton from "../SettingsButton";
+import { CardEffect } from "../Card/Card";
 
 const Table = ({ hide = false }: { hide?: boolean }) => {
   const game = useGame();
@@ -93,14 +94,27 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
     ];
   }
 
+  function getCardEffect(cardOwner: Participant): CardEffect {
+    if (game.winner === "none") return "none";
+    return cardOwner === game.winner ? "highlight" : "dim";
+  }
+
   return (
     <div className={styles.Table} style={{ display: hide ? "none" : "" }}>
       {showHitWarning && getHitWarning()}
       {showStickWarning && getStickWarning()}
-      <CardRow cardOwner={"Dealer"} cards={game.dealer.cards}>
+      <CardRow
+        cardOwner={"Dealer"}
+        cards={game.dealer.cards}
+        effect={getCardEffect("Dealer")}
+      >
         <SettingsButton />
       </CardRow>
-      <CardRow cardOwner={"Player"} cards={game.player.cards} />
+      <CardRow
+        cardOwner={"Player"}
+        cards={game.player.cards}
+        effect={getCardEffect("Player")}
+      />
       <InfoHud
         gameState={game.state}
         outcome={game.outcome}

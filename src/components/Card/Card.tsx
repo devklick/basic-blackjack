@@ -6,9 +6,12 @@ import {
 
 import styles from "./Card.module.scss";
 
-export interface CardProps extends CardObject {}
+export type CardEffect = "highlight" | "dim" | "none";
+export interface CardProps extends CardObject {
+  effect: CardEffect;
+}
 
-function Card({ rank, suit, facing }: CardProps) {
+function Card({ rank, suit, facing, effect }: CardProps) {
   const suitData = CardSuitMetadataMap[suit];
   const rankData = CardRankMetadataMap[rank];
 
@@ -20,9 +23,15 @@ function Card({ rank, suit, facing }: CardProps) {
     content = ["?"];
   }
 
+  const cardClasses = [
+    styles.Card,
+    effect === "dim" && styles.CardDim,
+    effect === "highlight" && styles.CardHighlight,
+  ].join(" ");
+
   return (
     <div className={styles.CardWrapper}>
-      <div className={styles.Card} style={{ backgroundColor: color }}>
+      <div className={cardClasses} style={{ backgroundColor: color }}>
         <div className={styles.CardContent}>{content}</div>
       </div>
     </div>
