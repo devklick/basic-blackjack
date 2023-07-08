@@ -1,3 +1,16 @@
+# [0.4.0](https://github.com/devklick/basic-blackjack/compare/v0.3.1...v0.4.0) (2023-07-08)
+
+
+### Bug Fixes
+
+* High score check on face cards ([483aebe](https://github.com/devklick/basic-blackjack/commit/483aebe369032d13c7e0895c0c62370707280db6)), closes [#21](https://github.com/devklick/basic-blackjack/issues/21)
+* player bust text ([ac78895](https://github.com/devklick/basic-blackjack/commit/ac78895d1109f6fdc25f76648156895df4f5f04a)), closes [#20](https://github.com/devklick/basic-blackjack/issues/20)
+
+
+### Features
+
+* Highlight winner cards ([25b0856](https://github.com/devklick/basic-blackjack/commit/25b08560a7f8860d8a442a0b8ff3fdebb5746840)), closes [#18](https://github.com/devklick/basic-blackjack/issues/18)
+
 ## [0.3.1](https://github.com/devklick/basic-blackjack/compare/v0.3.0...v0.3.1) (2023-07-06)
 
 
