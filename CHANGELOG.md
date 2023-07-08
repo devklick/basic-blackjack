@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/devklick/basic-blackjack/compare/v0.4.0...v0.5.0) (2023-07-08)
+
+
+### Features
+
+* sound effects ([ae660d2](https://github.com/devklick/basic-blackjack/commit/ae660d26428acfa1e0eb65612bb36ca9944b20cb)), closes [#19](https://github.com/devklick/basic-blackjack/issues/19)
+
 # [0.4.0](https://github.com/devklick/basic-blackjack/compare/v0.3.1...v0.4.0) (2023-07-08)
 
 
