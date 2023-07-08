@@ -100,7 +100,7 @@ export const generateDeck = (
 export interface CardValue {
   card: CardObject;
   rankValueUsed: number;
-  rankRelativeValueUsed: number;
+  rankGlobalValueUsed: number;
 }
 export interface BestHand {
   score: number;
@@ -125,12 +125,12 @@ export const calculateBestHand = (cards: CardObject[]): BestHand => {
     }
 
     const cardValue = Math.max(...CardRankMetadataMap[card.rank].values);
-    const cardRelativeValue = Math.max(
+    const cardGlobalValue = Math.max(
       ...CardRankMetadataMap[card.rank].relativeValues
     );
     bestHand.cards.push({
       card,
-      rankRelativeValueUsed: cardRelativeValue,
+      rankGlobalValueUsed: cardGlobalValue,
       rankValueUsed: cardValue,
     });
     bestHand.score += cardValue;
@@ -197,17 +197,15 @@ export const determineWinner = (
 };
 
 const getHighestCardValue = (cards: CardValue[]) => {
-  return cards.sort((a, b) => b.rankValueUsed - a.rankValueUsed)[0];
+  return cards.sort((a, b) => b.rankGlobalValueUsed - a.rankGlobalValueUsed)[0];
 };
 
 const getHighCardWinner = (
   playerCards: CardValue[],
   dealerCards: CardValue[]
 ): GameResult | null => {
-  const playerHighCard = getHighestCardValue(playerCards).rankValueUsed;
-  console.log("playerHighCard", playerHighCard);
-  const dealerHighCard = getHighestCardValue(dealerCards).rankValueUsed;
-  console.log("dealerHighCard", dealerHighCard);
+  const playerHighCard = getHighestCardValue(playerCards).rankGlobalValueUsed;
+  const dealerHighCard = getHighestCardValue(dealerCards).rankGlobalValueUsed;
 
   const winner = getPlayerWithHighestValue(playerHighCard, dealerHighCard);
   if (!winner) return null;
