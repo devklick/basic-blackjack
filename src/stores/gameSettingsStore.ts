@@ -6,10 +6,12 @@ export interface GameSettingsStoreState {
   hitWarningsEnabled: boolean;
   stickWarningsEnabled: boolean;
   settingsModalOpen: boolean;
+  audioEnabled: boolean;
   setWarningEnabled: (warningType: WarningType, enabled: boolean) => void;
   toggleWarningEnabled: (warningType: WarningType) => void;
   getWarningEnabled: (warningType: WarningType) => boolean;
   setSettingsModelOpen: (open: boolean) => void;
+  toggleAudioEnabled: () => void;
 }
 
 const nonPersistedKeys: Array<keyof GameSettingsStoreState> = [
@@ -22,6 +24,7 @@ export const useGameSettingsStore = create<GameSettingsStoreState>()(
       hitWarningsEnabled: true,
       stickWarningsEnabled: true,
       settingsModalOpen: false,
+      audioEnabled: true,
       setWarningEnabled(warningType, enabled) {
         switch (warningType) {
           case "hit-on-high":
@@ -58,6 +61,9 @@ export const useGameSettingsStore = create<GameSettingsStoreState>()(
       },
       setSettingsModelOpen(open) {
         set({ settingsModalOpen: open });
+      },
+      toggleAudioEnabled() {
+        set({ audioEnabled: !get().audioEnabled });
       },
     }),
     {

@@ -35,6 +35,22 @@ function GameSettings() {
 
         <div className={styles.GameSetting}>
           <div className={styles.Info}>
+            <span className={styles.Header}>Audio Enabled</span>
+            <span className={styles.Description}>
+              Whether or not sound effects should play
+            </span>
+          </div>
+          <div className={styles.ControlWrapper}>
+            <CheckBox
+              className={styles.Control}
+              checked={gameSettings.audioEnabled}
+              onChanged={() => gameSettings.toggleAudioEnabled()}
+            />
+          </div>
+        </div>
+
+        <div className={styles.GameSetting}>
+          <div className={styles.Info}>
             <span className={styles.Header}>Hit Warnings Enabled</span>
             <span className={styles.Description}>
               Whether or not you want to see a warning if you click "hit" while
