@@ -9,9 +9,11 @@ import { useGameSettingsStore } from "../../stores/gameSettingsStore";
 import styles from "./Table.module.scss";
 import SettingsButton from "../SettingsButton";
 import { CardEffect } from "../Card/Card";
+import useAudioPlayer from "./hooks/useAudioPlayer";
 
 const Table = ({ hide = false }: { hide?: boolean }) => {
   const game = useGame();
+  const {play} = useAudioPlayer();
   const { hitWarningsEnabled, stickWarningsEnabled } = useGameSettingsStore();
   const [showHitWarning, setShowHitWarning] = useState<boolean>(false);
   const [showStickWarning, setShowStickWarning] = useState<boolean>(false);
@@ -29,6 +31,7 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
       game.getParticipantScore("Player") >= 18 &&
       !overrideWarning
     ) {
+      play('warning');
       setShowHitWarning(true);
       return;
     }
@@ -44,6 +47,7 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
       game.getParticipantScore("Player") <= 10 &&
       !overrideWarning
     ) {
+      play('warning');
       setShowStickWarning(true);
       return;
     }

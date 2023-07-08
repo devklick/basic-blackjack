@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { CardObject, Facing } from "../card.types";
 import { BestHand, calculateBestHand } from "../../../utilities/deckUtilities";
+import useAudioPlayer from "../../Table/hooks/useAudioPlayer";
 
 const defaultBestHand: BestHand = { cards: [], score: 0 };
 /**
@@ -13,6 +14,7 @@ export function useCardPile() {
   const bust = useRef<boolean>(false);
   const fiveCardTrick = useRef<boolean>(false);
   const allCardsVisible = useRef<boolean>(false);
+  const {play} = useAudioPlayer();
 
   /**
    * Add cards to the pile
@@ -20,7 +22,10 @@ export function useCardPile() {
    * @param facing The direction the card should be facing when placed in the pile
    */
   function addCards(cardsToAdd: CardObject[], facing: Facing | null = null) {
-    if (facing) cardsToAdd.forEach((c) => (c.facing = facing));
+    cardsToAdd.forEach(card => {
+      play('cardDealt');
+      if (facing) card.facing = facing;
+    });
     setCards([...cards].concat(cardsToAdd));
   }
 

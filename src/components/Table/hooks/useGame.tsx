@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useGameStats } from "../../InfoHud";
 import { determineWinner } from "../../../utilities/deckUtilities";
 import { Facing, useCardPile, useDeck } from "../../Card";
+import useAudioPlayer from "./useAudioPlayer";
 
 export type GameState =
   | "WaitingForStart"
@@ -22,6 +23,8 @@ export type WinType =
   | "high-card"
   | "draw";
 
+const delayBetweenCards = 400;
+
 export function useGame() {
   const [state, setState] = useState<GameState>("WaitingForStart");
   const [outcome, setOutcome] = useState<string | null>(null);
@@ -31,12 +34,13 @@ export function useGame() {
   const player = useCardPile();
   const dealer = useCardPile();
   const stats = useGameStats();
+  const {play} = useAudioPlayer();
 
   const dealPlayerCard = state === "DealPlayerCard";
   const dealDealerCard = state === "DealDealerCard";
   const resultGame = state === "Result";
   const dealerRound = state === "DealerRound";
-
+  
   /**
    * Takes card of determining the winner
    * when the game state changes to Result
@@ -85,7 +89,7 @@ export function useGame() {
     else if (dealerScore >= 16 && dealerScore > playerScore) {
       setState("Result");
     } else {
-      timeout = setTimeout(() => dealCardsToParticipant("Dealer", 1), 500);
+      timeout = setTimeout(() => dealCardsToParticipant("Dealer", 1), delayBetweenCards);
     }
 
     return () => {
@@ -105,7 +109,7 @@ export function useGame() {
     const timeout = setTimeout(() => {
       player.addCards(deck.take(1));
       setState("DealDealerCard");
-    }, 500);
+    }, delayBetweenCards);
 
     return () => {
       clearTimeout(timeout);
@@ -130,7 +134,7 @@ export function useGame() {
       } else {
         setState("DealPlayerCard");
       }
-    }, 500);
+    }, delayBetweenCards);
 
     return () => {
       clearTimeout(timeout);
@@ -207,6 +211,11 @@ export function useGame() {
     setState("GameOver");
     setOutcome(outcomeText);
     setWinner(winner ?? "none");
+    if (winner) {
+      play(winner === 'Player' ? 'roundWon' : 'roundLost' );
+    }
+
+    
 
     winner && stats.updateWinnerStats(winner);
   }
