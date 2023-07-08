@@ -20,6 +20,18 @@
     justify-content: center;
     container-type: inline-size;
 }
+
+.CardHighlight {
+    // border: 5px solid white;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+.CardDim {
+    opacity: 0.7;
+}
+
 .CardContent {
     text-align: center;
     overflow-wrap: break-word;
@@ -38,5 +50,16 @@
     }
     100% {
         transform: translateX(0);
+    }
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #84b893, 0 0 8px #84b893, 0 0 10px #84b893, 0 0 12px #84b893,
+            0 0 14px #84b893;
+    }
+    to {
+        box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #1e5e31, 0 0 8px #1e5e31, 0 0 10px #1e5e31, 0 0 12px #1e5e31,
+            0 0 14px #1e5e31;
     }
 }

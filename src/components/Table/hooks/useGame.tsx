@@ -13,10 +13,19 @@ export type GameState =
   | "GameOver";
 
 export type Participant = "Player" | "Dealer";
+export type Winner = Participant | "none";
+export type WinType =
+  | "opponent-bust"
+  | "five-card-trick"
+  | "high-score"
+  | "most-cards"
+  | "high-card"
+  | "draw";
 
 export function useGame() {
   const [state, setState] = useState<GameState>("WaitingForStart");
   const [outcome, setOutcome] = useState<string | null>(null);
+  const [winner, setWinner] = useState<Winner>("none");
 
   const deck = useDeck();
   const player = useCardPile();
@@ -133,6 +142,7 @@ export function useGame() {
    */
   function setup() {
     setOutcome(null);
+    setWinner("none");
     deck.init();
 
     player.setCards([]);
@@ -196,6 +206,7 @@ export function useGame() {
   function setResult(outcomeText: string, winner?: Participant | null): void {
     setState("GameOver");
     setOutcome(outcomeText);
+    setWinner(winner ?? "none");
 
     winner && stats.updateWinnerStats(winner);
   }
@@ -223,6 +234,11 @@ export function useGame() {
      * Statistics about the games played during this session.
      */
     stats,
+
+    /**
+     * The participant who won the round, if any.
+     */
+    winner,
     setup,
     startDealerRound,
     getParticipantScore,
