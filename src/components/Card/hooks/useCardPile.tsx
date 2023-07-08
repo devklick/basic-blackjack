@@ -45,9 +45,8 @@ export function useCardPile() {
 
     bestHand.current = calculateBestHand(cardsToSet);
     bust.current = bestHand.current.score > 21;
-    if (cardsToSet.length === 5 && bestHand.current.score <= 21) {
-      fiveCardTrick.current = true;
-    }
+    fiveCardTrick.current = cards.length === 5 && bestHand.current.score <= 21;
+    
     setCardsState(cardsToSet);
   }
 
