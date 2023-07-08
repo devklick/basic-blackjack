@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/devklick/basic-blackjack/compare/v0.5.0...v0.5.1) (2023-07-08)
+
+
+### Bug Fixes
+
+* five card trick ([3c6dce3](https://github.com/devklick/basic-blackjack/commit/3c6dce3086c0bb0fa6dbfec0a05004909c153c52)), closes [#24](https://github.com/devklick/basic-blackjack/issues/24)
+
 # [0.5.0](https://github.com/devklick/basic-blackjack/compare/v0.4.0...v0.5.0) (2023-07-08)
 
 
