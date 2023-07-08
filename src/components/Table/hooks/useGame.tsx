@@ -68,7 +68,7 @@ export function useGame() {
     let timeout: NodeJS.Timeout | undefined;
 
     if (dealer.bust) {
-      setResult("Dealer bust, dealer wins!", "Player");
+      setResult("Dealer bust, player wins!", "Player");
     } else if (dealer.fiveCardTrick) {
       setResult("Dealer wins with a five card trick!", "Dealer");
     }
