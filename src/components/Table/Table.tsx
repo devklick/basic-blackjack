@@ -13,7 +13,7 @@ import useAudioPlayer from "./hooks/useAudioPlayer";
 
 const Table = ({ hide = false }: { hide?: boolean }) => {
   const game = useGame();
-  const {play} = useAudioPlayer();
+  const { play } = useAudioPlayer();
   const { hitWarningsEnabled, stickWarningsEnabled } = useGameSettingsStore();
   const [showHitWarning, setShowHitWarning] = useState<boolean>(false);
   const [showStickWarning, setShowStickWarning] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
       game.getParticipantScore("Player") >= 18 &&
       !overrideWarning
     ) {
-      play('warning');
+      play("warning");
       setShowHitWarning(true);
       return;
     }
@@ -47,7 +47,7 @@ const Table = ({ hide = false }: { hide?: boolean }) => {
       game.getParticipantScore("Player") <= 10 &&
       !overrideWarning
     ) {
-      play('warning');
+      play("warning");
       setShowStickWarning(true);
       return;
     }

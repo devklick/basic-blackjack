@@ -23,7 +23,14 @@ export type WinType =
   | "high-card"
   | "draw";
 
-const delayBetweenCards = 400;
+/**
+ * A delay used to prevent actions from happening too quickly,
+ * which would detract from the user experience in the UI.
+ *
+ * For example, this delay happens between cards being dealt,
+ * and between the final card being dealt and the result being displayed.
+ */
+const delayBetweenActions = 400;
 
 export function useGame() {
   const [state, setState] = useState<GameState>("WaitingForStart");
@@ -34,13 +41,13 @@ export function useGame() {
   const player = useCardPile();
   const dealer = useCardPile();
   const stats = useGameStats();
-  const {play} = useAudioPlayer();
+  const { play } = useAudioPlayer();
 
   const dealPlayerCard = state === "DealPlayerCard";
   const dealDealerCard = state === "DealDealerCard";
   const resultGame = state === "Result";
   const dealerRound = state === "DealerRound";
-  
+
   /**
    * Takes card of determining the winner
    * when the game state changes to Result
@@ -50,7 +57,11 @@ export function useGame() {
 
     const gameResult = determineWinner(player.hand, dealer.hand);
 
-    setResult(gameResult.winnerText, gameResult.winner);
+    const timeout = setResult(gameResult.winnerText, gameResult.winner);
+
+    return () => {
+      clearTimeout(timeout);
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resultGame]);
@@ -61,11 +72,15 @@ export function useGame() {
    * to go bust or hit a five card trick.
    */
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     if (player.bust) {
-      setResult("Player bust, dealer wins!", "Dealer");
+      timeout = setResult("Player bust, dealer wins!", "Dealer");
     } else if (player.fiveCardTrick) {
-      setResult("Player wins with a five card trick!", "Player");
+      timeout = setResult("Player wins with a five card trick!", "Player");
     }
+    return () => {
+      timeout && clearTimeout(timeout);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player.bust, player.fiveCardTrick]);
 
@@ -81,15 +96,18 @@ export function useGame() {
     let timeout: NodeJS.Timeout | undefined;
 
     if (dealer.bust) {
-      setResult("Dealer bust, player wins!", "Player");
+      timeout = setResult("Dealer bust, player wins!", "Player");
     } else if (dealer.fiveCardTrick) {
-      setResult("Dealer wins with a five card trick!", "Dealer");
+      timeout = setResult("Dealer wins with a five card trick!", "Dealer");
     }
     // Dealer has to hit if they've got less than 16 or less than the players score.
     else if (dealerScore >= 16 && dealerScore > playerScore) {
       setState("Result");
     } else {
-      timeout = setTimeout(() => dealCardsToParticipant("Dealer", 1), delayBetweenCards);
+      timeout = setTimeout(
+        () => dealCardsToParticipant("Dealer", 1),
+        delayBetweenActions
+      );
     }
 
     return () => {
@@ -109,7 +127,7 @@ export function useGame() {
     const timeout = setTimeout(() => {
       player.addCards(deck.take(1));
       setState("DealDealerCard");
-    }, delayBetweenCards);
+    }, delayBetweenActions);
 
     return () => {
       clearTimeout(timeout);
@@ -134,7 +152,7 @@ export function useGame() {
       } else {
         setState("DealPlayerCard");
       }
-    }, delayBetweenCards);
+    }, delayBetweenActions);
 
     return () => {
       clearTimeout(timeout);
@@ -207,17 +225,20 @@ export function useGame() {
    * @param outcomeText The text to be displayed to describe the outcome
    * @param winner The participant that won the game, if any.
    */
-  function setResult(outcomeText: string, winner?: Participant | null): void {
-    setState("GameOver");
-    setOutcome(outcomeText);
-    setWinner(winner ?? "none");
-    if (winner) {
-      play(winner === 'Player' ? 'roundWon' : 'roundLost' );
-    }
+  function setResult(
+    outcomeText: string,
+    winner?: Participant | null
+  ): NodeJS.Timeout {
+    return setTimeout(() => {
+      setState("GameOver");
+      setOutcome(outcomeText);
+      setWinner(winner ?? "none");
+      if (winner) {
+        play(winner === "Player" ? "roundWon" : "roundLost");
+      }
 
-    
-
-    winner && stats.updateWinnerStats(winner);
+      winner && stats.updateWinnerStats(winner);
+    }, delayBetweenActions);
   }
 
   return {
