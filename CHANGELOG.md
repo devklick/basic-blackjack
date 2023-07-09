@@ -1,3 +1,10 @@
+## [0.5.3](https://github.com/devklick/basic-blackjack/compare/v0.5.2...v0.5.3) (2023-07-09)
+
+
+### Bug Fixes
+
+* prevent overlapping sound effects ([8a209b5](https://github.com/devklick/basic-blackjack/commit/8a209b544ac5a714cd6e2b5c01785a30c231bd51)), closes [#28](https://github.com/devklick/basic-blackjack/issues/28)
+
 ## [0.5.2](https://github.com/devklick/basic-blackjack/compare/v0.5.1...v0.5.2) (2023-07-09)
 
 
