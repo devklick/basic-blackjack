@@ -14,7 +14,7 @@ export function useCardPile() {
   const bust = useRef<boolean>(false);
   const fiveCardTrick = useRef<boolean>(false);
   const allCardsVisible = useRef<boolean>(false);
-  const {play} = useAudioPlayer();
+  const { play } = useAudioPlayer();
 
   /**
    * Add cards to the pile
@@ -22,8 +22,8 @@ export function useCardPile() {
    * @param facing The direction the card should be facing when placed in the pile
    */
   function addCards(cardsToAdd: CardObject[], facing: Facing | null = null) {
-    cardsToAdd.forEach(card => {
-      play('cardDealt');
+    cardsToAdd.forEach((card) => {
+      play("cardDealt");
       if (facing) card.facing = facing;
     });
     setCards([...cards].concat(cardsToAdd));
@@ -45,8 +45,9 @@ export function useCardPile() {
 
     bestHand.current = calculateBestHand(cardsToSet);
     bust.current = bestHand.current.score > 21;
-    fiveCardTrick.current = cards.length === 5 && bestHand.current.score <= 21;
-    
+    fiveCardTrick.current =
+      cardsToSet.length === 5 && bestHand.current.score <= 21;
+
     setCardsState(cardsToSet);
   }
 
