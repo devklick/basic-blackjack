@@ -10,14 +10,14 @@ jobs:
       next-release-version: ${{steps.capture-next-version.outputs.NEXT_RELEASE_VERSION}}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 25
 
       - name: Install Dependencies
         run: npm install
@@ -40,19 +40,19 @@ jobs:
     env:
       RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 25
 
       - name: install dependencies
         run: npm install
 
       - name: Publish Linux
-        run: npm run electron:package:linux
+        run: npm run electron:build:linux
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: basic-blackjack_linux_x64.deb
           path: dist/basic-blackjack_*.deb
@@ -65,14 +65,14 @@ jobs:
       RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 25
 
       - name: install dependencies
         run: npm install
@@ -81,7 +81,7 @@ jobs:
         run: npm run electron:package:win
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: basic-blackjack_win_x64.exe
           path: dist/basic-blackjack_*.exe
@@ -91,22 +91,22 @@ jobs:
     needs: [publish-linux, publish-windows]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 25
 
       - name: install dependencies
         run: npm install
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v7
         with:
           name: basic-blackjack_linux_x64.deb
           path: dist
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v8
         with:
           name: basic-blackjack_win_x64.exe
           path: dist
@@ -127,14 +127,14 @@ jobs:
       RELEASE_VERSION: ${{needs.determine-next-release.outputs.next-release-version}}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 25
 
       - name: Install dependencies
         run: npm install
@@ -149,8 +149,8 @@ jobs:
         run: touch build/.nojekyll
 
       - name: Commit wwwroot to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build
+          FOLDER: out/renderer
