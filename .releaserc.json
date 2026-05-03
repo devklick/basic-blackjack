@@ -20,7 +20,7 @@
             "name": "BasicBlackjack_${nextRelease.gitTag}.deb"
           },
           {
-            "path": "dist/basic-blackjack_*.exe",
+            "path": "dist/basic-blackjack-*-setup.exe",
             "label": "BasicBlackjack_${nextRelease.gitTag}.exe",
             "name": "BasicBlackjack_${nextRelease.gitTag}.exe"
           }

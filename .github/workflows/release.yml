@@ -102,7 +102,7 @@ jobs:
 
       - name: install dependencies
         run: npm install
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: basic-blackjack_linux_x64.deb
           path: dist
