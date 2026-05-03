@@ -49,7 +49,7 @@ jobs:
         run: npm install
 
       - name: Publish Linux
-        run: npm run electron:build:linux
+        run: npm run build:linux
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
@@ -78,7 +78,7 @@ jobs:
         run: npm install
 
       - name: Publish Windows
-        run: npm run electron:package:win
+        run: npm run build:win
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
@@ -142,7 +142,7 @@ jobs:
       - name: Run build
         env:
           REACT_APP_VERSION: ${{env.RELEASE_VERSION}}
-        run: npm run build
+        run: npm run build:web
 
       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
       - name: Add .nojekyll file
