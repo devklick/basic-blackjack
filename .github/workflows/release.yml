@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: basic-blackjack_win_x64.exe
-          path: dist/basic-blackjack_*.exe
+          path: dist/basic-blackjack-*-setup.exe
 
   release:
     runs-on: ubuntu-latest
