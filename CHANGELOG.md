@@ -1,3 +1,10 @@
+## [0.5.5](https://github.com/devklick/basic-blackjack/compare/v0.5.4...v0.5.5) (2026-05-03)
+
+
+### Bug Fixes
+
+* windows asset path in releaserc ([8deb005](https://github.com/devklick/basic-blackjack/commit/8deb005ca7d7be6e2751548c116e1d2dd26b7b84))
+
 ## [0.5.4](https://github.com/devklick/basic-blackjack/compare/v0.5.3...v0.5.4) (2026-05-03)
 
 
