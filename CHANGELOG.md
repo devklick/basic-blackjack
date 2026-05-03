@@ -1,3 +1,14 @@
+## [0.5.4](https://github.com/devklick/basic-blackjack/compare/v0.5.3...v0.5.4) (2026-05-03)
+
+
+### Bug Fixes
+
+* Add missing deps ([4f0e31b](https://github.com/devklick/basic-blackjack/commit/4f0e31b7f41c6f36762ffd6f9fb0c8857831e320))
+* build scripts in release workflow ([39ff997](https://github.com/devklick/basic-blackjack/commit/39ff997a8f682b191cbd1d370238638108f8427b))
+* remove @semantic-release/npm ([eb6a314](https://github.com/devklick/basic-blackjack/commit/eb6a31400cdc404a503dca9906a600d6a154c79b))
+* remove @semantic-release/npm ([d015f8b](https://github.com/devklick/basic-blackjack/commit/d015f8b967fd2e9bc059a85fb04b3fe8041c35ca))
+* windows artifact path ([fdc9bd1](https://github.com/devklick/basic-blackjack/commit/fdc9bd1066e5e9cc3a348703b9ec2d886a2d1a2c))
+
 ## [0.5.3](https://github.com/devklick/basic-blackjack/compare/v0.5.2...v0.5.3) (2023-07-09)
 
 
